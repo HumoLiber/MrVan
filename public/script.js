@@ -93,6 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 formValues.type = tabContent.id.replace('-tab', '');
             } else if (form.classList.contains('misterfy-style')) {
                 formValues.type = 'partner-application';
+                
+                // Додаємо обробку підписки на новини
+                const newsletterCheckbox = form.querySelector('#newsletter');
+                if (newsletterCheckbox) {
+                    formValues.newsletter_subscription = newsletterCheckbox.checked;
+                }
             }
             
             for (let [key, value] of formData.entries()) {
