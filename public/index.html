@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xBank - Banking of the New Generation</title>
+    <title>MrVan Partners - Campervan Rental Platform</title>
     <link rel="stylesheet" href="/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,8 +18,19 @@
     <header>
         <div class="container">
             <div class="logo">
-                <img src="/images/x-bank-logo-white.png" alt="xBank Logo">
+                <img src="/images/mrvan-logo.png" alt="MrVan Logo">
             </div>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#why-choose">Why MrVan</a></li>
+                    <li><a href="#our-plans">Our Plans</a></li>
+                    <li><a href="#campervans">Campervans</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#cities">Cities</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </nav>
             <div class="language-dropdown">
                 <button class="language-btn" id="language-btn">
                     <span class="lang-icon en-icon">EN</span>
@@ -32,32 +43,17 @@
                         <span class="lang-text">English</span>
                         <span class="check-mark">✓</span>
                     </div>
-                    <div class="language-option" data-lang="fr">
-                        <span class="lang-icon fr-icon">FR</span>
-                        <span class="lang-text">Français</span>
-                    </div>
                     <div class="language-option" data-lang="ua">
                         <span class="lang-icon ua-icon">UA</span>
                         <span class="lang-text">Українська</span>
-                    </div>
-                    <div class="language-option" data-lang="ca">
-                        <span class="lang-icon ca-icon">CA</span>
-                        <span class="lang-text">Català</span>
                     </div>
                     <div class="language-option" data-lang="es">
                         <span class="lang-icon es-icon">ES</span>
                         <span class="lang-text">Español</span>
                     </div>
-                    <div class="language-option" data-lang="pl">
-                        <span class="lang-icon pl-icon">PL</span>
-                        <span class="lang-text">Polski</span>
-                    </div>
-                    <div class="language-option" data-lang="ru">
-                        <span class="lang-icon ru-icon">RU</span>
-                        <span class="lang-text">Русский</span>
-                    </div>
                 </div>
             </div>
+            <a href="#contact" class="btn primary header-cta">Partner with Us</a>
         </div>
     </header>
 
@@ -65,51 +61,153 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>Banking of the New Generation</h1>
-                <h2>We mean REALLY THE NEW!</h2>
-                <p>xBank is a modern online bank created for those who value innovative solutions and want to have complete control over their finances with a single touch.</p>
+                <h1>MrVan: Rent the Platform for Your Campervans</h1>
+                <p>Join our network of partners and start earning with your campervan fleet. We provide the technology, you provide the vehicles.</p>
                 <div class="cta-buttons">
-                    <a href="#beta-access" class="btn primary">Get Access</a>
+                    <a href="#contact" class="btn primary">Become a Partner</a>
+                    <a href="#how-it-works" class="btn secondary">Learn More</a>
                 </div>
             </div>
             <div class="hero-image">
-                <!-- Placeholder for chimp image that will be added by designers -->
-                <div class="image-placeholder">
-                    <p>Chimp image will be here</p>
+                <img src="/images/hero-campervan.jpg" alt="MrVan Campervan" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Section -->
+    <section id="why-choose" class="why-choose">
+        <div class="container">
+            <h2 class="section-title">Why choose MrVan?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚐</div>
+                    <h3>Fleet Management</h3>
+                    <p>Easily manage your entire campervan fleet from a single dashboard</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Increased Revenue</h3>
+                    <p>Boost your rental income with our optimized pricing algorithms</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📱</div>
+                    <h3>Mobile App</h3>
+                    <p>Provide your customers with a seamless booking experience</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔧</div>
+                    <h3>Maintenance Tracking</h3>
+                    <p>Keep your fleet in top condition with our maintenance system</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <p>Get insights into your business performance and customer preferences</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>Global Reach</h3>
+                    <p>Access customers from around the world through our platform</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
+    <!-- Our Plans Section -->
+    <section id="our-plans" class="our-plans">
         <div class="container">
-            
-            <h2 class="section-title">Key Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Modern Mobile Application</h3>
+            <h2 class="section-title">Our Plans</h2>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <img src="/images/plan-basic.jpg" alt="Basic Plan" class="plan-image">
+                    <div class="plan-content">
+                        <h3>Basic</h3>
+                        <p>Perfect for small fleets of 1-3 campervans</p>
+                        <ul class="plan-features">
+                            <li>Fleet management dashboard</li>
+                            <li>Basic booking system</li>
+                            <li>Customer support</li>
+                        </ul>
+                        <a href="#contact" class="btn primary">Get Started</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🧠</div>
-                    <h3>LLM-oriented Data Architecture</h3>
+                <div class="plan-card featured">
+                    <img src="/images/plan-premium.jpg" alt="Premium Plan" class="plan-image">
+                    <div class="plan-content">
+                        <h3>Premium</h3>
+                        <p>Ideal for growing fleets of 4-10 campervans</p>
+                        <ul class="plan-features">
+                            <li>Advanced fleet management</li>
+                            <li>Dynamic pricing</li>
+                            <li>Maintenance tracking</li>
+                            <li>24/7 customer support</li>
+                        </ul>
+                        <a href="#contact" class="btn primary">Get Started</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💳</div>
-                    <h3>Full Range of Cards</h3>
+                <div class="plan-card">
+                    <img src="/images/plan-enterprise.jpg" alt="Enterprise Plan" class="plan-image">
+                    <div class="plan-content">
+                        <h3>Enterprise</h3>
+                        <p>For large fleets of 10+ campervans</p>
+                        <ul class="plan-features">
+                            <li>Custom integration solutions</li>
+                            <li>Advanced analytics</li>
+                            <li>Dedicated account manager</li>
+                            <li>API access</li>
+                        </ul>
+                        <a href="#contact" class="btn primary">Get Started</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛍️</div>
-                    <h3>Lending and BNPL</h3>
+                <div class="plan-card">
+                    <img src="/images/plan-franchise.jpg" alt="Franchise Plan" class="plan-image">
+                    <div class="plan-content">
+                        <h3>Franchise</h3>
+                        <p>Become a MrVan franchise in your region</p>
+                        <ul class="plan-features">
+                            <li>Full brand licensing</li>
+                            <li>Marketing support</li>
+                            <li>Business development assistance</li>
+                            <li>Training and onboarding</li>
+                        </ul>
+                        <a href="#contact" class="btn primary">Get Started</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏦</div>
-                    <h3>Deposits + Savings</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Campervans Section -->
+    <section id="campervans" class="campervans">
+        <div class="container">
+            <h2 class="section-title">Our Campervans</h2>
+            <div class="campervans-grid">
+                <div class="campervan-card">
+                    <img src="/images/campervan-compact.jpg" alt="Compact Campervan" class="campervan-image">
+                    <div class="campervan-content">
+                        <h3>Compact</h3>
+                        <p class="campervan-price">From €80/day</p>
+                        <p class="campervan-description">Perfect for couples, easy to drive and park</p>
+                        <a href="#" class="btn secondary">View Details</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💸</div>
-                    <h3>Transfers</h3>
+                <div class="campervan-card">
+                    <img src="/images/campervan-family.jpg" alt="Family Campervan" class="campervan-image">
+                    <div class="campervan-content">
+                        <h3>Family</h3>
+                        <p class="campervan-price">From €120/day</p>
+                        <p class="campervan-description">Spacious interior with sleeping for up to 4 people</p>
+                        <a href="#" class="btn secondary">View Details</a>
+                    </div>
+                </div>
+                <div class="campervan-card">
+                    <img src="/images/campervan-luxury.jpg" alt="Luxury Campervan" class="campervan-image">
+                    <div class="campervan-content">
+                        <h3>Luxury</h3>
+                        <p class="campervan-price">From €180/day</p>
+                        <p class="campervan-description">Premium features and high-end finishes</p>
+                        <a href="#" class="btn secondary">View Details</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,163 +216,95 @@
     <!-- How It Works Section -->
     <section id="how-it-works" class="how-it-works">
         <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <div class="bank-integration-scheme">
-                <img src="images/bank-scheme-new.svg" alt="Bank Integration Scheme" class="scheme-image">
+            <h2 class="section-title">How do we work?</h2>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Register as a Partner</h3>
+                        <p>Fill out our simple application form and our team will contact you within 24 hours</p>
+                    </div>
+                    <div class="step-icon">
+                        <img src="/images/icon-register.svg" alt="Register Icon">
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Add Your Vehicles</h3>
+                        <p>Upload your campervan details, photos, and availability to our platform</p>
+                    </div>
+                    <div class="step-icon">
+                        <img src="/images/icon-vehicles.svg" alt="Vehicles Icon">
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Receive Bookings</h3>
+                        <p>Customers book your campervans through our platform and mobile app</p>
+                    </div>
+                    <div class="step-icon">
+                        <img src="/images/icon-bookings.svg" alt="Bookings Icon">
+                    </div>
+                </div>
+                
+                <div class="step-item">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Earn Revenue</h3>
+                        <p>Get paid for each booking with transparent fee structure and timely payouts</p>
+                    </div>
+                    <div class="step-icon">
+                        <img src="/images/icon-revenue.svg" alt="Revenue Icon">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Advantages Section -->
-    <section id="advantages" class="advantages">
+    <!-- Our Cities Section -->
+    <section id="cities" class="cities">
         <div class="container">
-            <h2 class="section-title">Why xBank?</h2>
-            <div class="advantages-grid">
-                <div class="advantage-card">
-                    <h3>Technology</h3>
-                    <p>We use the best cloud solutions, ensuring speed and security</p>
+            <h2 class="section-title">Our cities</h2>
+            <div class="cities-grid">
+                <div class="city-card">
+                    <img src="/images/city-barcelona.jpg" alt="Barcelona" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Barcelona</h3>
+                    </div>
                 </div>
-                <div class="advantage-card">
-                    <h3>Transparency</h3>
-                    <p>No hidden payments, fees, or penalties — everything is simple and clear</p>
+                <div class="city-card">
+                    <img src="/images/city-valencia.jpg" alt="Valencia" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Valencia</h3>
+                    </div>
                 </div>
-                <div class="advantage-card">
-                    <h3>Partnership with "Old Bank"</h3>
-                    <p>If you want to launch your own neobank, we offer integration and turnkey solutions</p>
+                <div class="city-card">
+                    <img src="/images/city-madrid.jpg" alt="Madrid" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Madrid</h3>
+                    </div>
                 </div>
-                <div class="advantage-card">
-                    <h3>Expert Team</h3>
-                    <p>Our specialists have years of experience in fintech, artificial intelligence, and software development</p>
+                <div class="city-card">
+                    <img src="/images/city-malaga.jpg" alt="Malaga" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Malaga</h3>
+                    </div>
                 </div>
-                <div class="advantage-card">
-                    <h3>AI-Assistant</h3>
-                    <p>Fast execution of routine operations, personal tips</p>
+                <div class="city-card">
+                    <img src="/images/city-seville.jpg" alt="Seville" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Seville</h3>
+                    </div>
                 </div>
-                <div class="advantage-card">
-                    <h3>Super-fast Onboarding</h3>
-                    <p>Paperless, through the app</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Beta Access Section -->
-    <section id="beta-access" class="beta-access">
-        <div class="container">
-            <h2 class="section-title">Join Today</h2>
-            <p class="section-description">Stop wasting time on outdated procedures and inefficient apps. xBank is your opportunity to experience the future of finance right now.</p>
-            
-            <div class="tabs">
-                <div class="tab-headers">
-                    <button class="tab-header active" data-tab="client">👤 I'm a Client</button>
-                    <button class="tab-header" data-tab="bank">🏦 I'm a Bank Representative</button>
-                    <button class="tab-header" data-tab="investor">💰 I'm an Investor</button>
-                    <button class="tab-header" data-tab="vibe-coder">👨‍💻 I'm a Vibe Coder</button>
-                </div>
-                
-                <div class="tab-content active" id="client-tab">
-                    <form class="beta-form">
-                        <div class="form-emoji">👤</div>
-                        <h3>Get Exclusive Access to the Beta Version</h3>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Your email" required>
-                        </div>
-                        <div class="form-group checkbox">
-                            <input type="checkbox" id="client-consent" name="consent" required>
-                            <label for="client-consent">I agree to receive news and updates about xBank</label>
-                        </div>
-                        <button type="submit" class="btn primary">Get Access</button>
-                    </form>
-                </div>
-                
-                <div class="tab-content" id="bank-tab">
-                    <form class="beta-form">
-                        <div class="form-emoji">🏦</div>
-                        <h3>Learn About Partnership Opportunities</h3>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="bank_name" placeholder="Bank name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Corporate email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="tel" name="phone" placeholder="Contact phone" required>
-                        </div>
-                        <div class="form-group checkbox">
-                            <input type="checkbox" id="bank-consent" name="consent" required>
-                            <label for="bank-consent">I agree to the processing of personal data</label>
-                        </div>
-                        <button type="submit" class="btn primary">Send Request</button>
-                    </form>
-                </div>
-                
-                <div class="tab-content" id="investor-tab">
-                    <form class="beta-form">
-                        <div class="form-emoji">💰</div>
-                        <h3>Investment Opportunities with xBank</h3>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="company" placeholder="Company/Fund" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <select name="region" required>
-                                <option value="" disabled selected>Region of interest</option>
-                                <option value="north-america">North America</option>
-                                <option value="europe">Europe</option>
-                                <option value="asia">Asia</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group checkbox">
-                            <input type="checkbox" id="investor-consent" name="consent" required>
-                            <label for="investor-consent">I agree to the processing of personal data</label>
-                        </div>
-                        <button type="submit" class="btn primary">Contact Us</button>
-                    </form>
-                </div>
-                
-                <div class="tab-content" id="vibe-coder-tab">
-                    <form class="beta-form">
-                        <div class="form-emoji">👨‍💻</div>
-                        <h3>Join Our Vibe Coder Community</h3>
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="Your name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" name="portfolio" placeholder="GitHub/Portfolio URL">
-                        </div>
-                        <div class="form-group">
-                            <select name="tech_stack" required>
-                                <option value="" disabled selected>Your primary tech stack</option>
-                                <option value="frontend">Frontend (React, Vue, Angular)</option>
-                                <option value="backend">Backend (Node.js, Python, Java)</option>
-                                <option value="fullstack">Full Stack</option>
-                                <option value="mobile">Mobile Development</option>
-                                <option value="ai">AI/ML</option>
-                                <option value="blockchain">Blockchain</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group checkbox">
-                            <input type="checkbox" id="vibe-consent" name="consent" required>
-                            <label for="vibe-consent">I am a modern software developer, I am a vibe coder</label>
-                        </div>
-                        <button type="submit" class="btn primary">Join the Vibe</button>
-                    </form>
+                <div class="city-card">
+                    <img src="/images/city-bilbao.jpg" alt="Bilbao" class="city-image">
+                    <div class="city-overlay">
+                        <h3>Bilbao</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,71 +313,227 @@
     <!-- FAQ Section -->
     <section id="faq" class="faq">
         <div class="container">
-            <h2 class="section-title">Frequently Asked Questions</h2>
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>When will xBank be available?</h3>
-                        <span class="accordion-icon">+</span>
+            <h2 class="section-title">FAQ</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is MrVan Partners?</h3>
+                        <div class="faq-toggle">+</div>
                     </div>
-                    <div class="accordion-content">
-                        <p>We plan to launch the beta version in 3-4 months, with a full launch in 6-9 months. Leave your email to get early access.</p>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>What are the fees for using xBank?</h3>
-                        <span class="accordion-icon">+</span>
-                    </div>
-                    <div class="accordion-content">
-                        <p>We offer transparent rates without hidden fees. Basic operations, such as transfers between xBank users, will be free. We will provide detailed information about rates closer to launch.</p>
+                    <div class="faq-answer">
+                        <p>MrVan Partners is a platform that connects campervan owners and rental companies with travelers looking to rent campervans. We provide the technology, marketing, and customer service infrastructure to help you grow your campervan rental business.</p>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>How does the AI assistant work?</h3>
-                        <span class="accordion-icon">+</span>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How much does it cost to join?</h3>
+                        <div class="faq-toggle">+</div>
                     </div>
-                    <div class="accordion-content">
-                        <p>The AI assistant analyzes your financial transactions and provides personalized recommendations for savings, investments, and budget management. It also helps with routine operations such as payments and transfers.</p>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Is it safe to use xBank?</h3>
-                        <span class="accordion-icon">+</span>
-                    </div>
-                    <div class="accordion-content">
-                        <p>Security is our priority. We use modern data encryption methods, two-factor authentication, and constantly monitor suspicious activity to protect your funds and personal information.</p>
+                    <div class="faq-answer">
+                        <p>Our pricing varies depending on the plan you choose and the number of vehicles in your fleet. We offer flexible options including commission-based models and subscription plans. Contact us for a personalized quote.</p>
                     </div>
                 </div>
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>How to become an xBank partner?</h3>
-                        <span class="accordion-icon">+</span>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do I need to have my own insurance?</h3>
+                        <div class="faq-toggle">+</div>
                     </div>
-                    <div class="accordion-content">
-                        <p>We offer flexible cooperation models for banks and financial institutions. Fill out the form in the "I'm a Bank Representative" section, and our team will contact you to discuss the details.</p>
+                    <div class="faq-answer">
+                        <p>Yes, all vehicles listed on our platform must have proper commercial insurance coverage. We can recommend insurance providers that specialize in campervan rentals if needed.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How are payments handled?</h3>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We handle all payment processing through our secure platform. Customers pay through our system, and we transfer the funds to you after deducting our service fee. Payouts are typically processed within 24-48 hours after a rental is completed.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I set my own pricing and availability?</h3>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely! You have full control over your pricing, availability calendar, and rental terms. Our system also offers dynamic pricing suggestions based on market demand to help maximize your revenue.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What support do you provide to partners?</h3>
+                        <div class="faq-toggle">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We provide comprehensive support including a dedicated account manager, technical assistance, marketing materials, and 24/7 customer service for both you and your renters. We also offer training on how to use our platform effectively.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer Section -->
-    <footer>
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Приєднуйтесь до MrVan</h2>
+            <p class="section-description">Заповніть форму нижче, щоб отримати більше інформації про партнерство з нами</p>
+            <div class="contact-container">
+                <div class="contact-image">
+                    <img src="/images/contact-image.jpg" alt="Contact Us" class="contact-img">
+                </div>
+                <div class="contact-form-container">
+                    <form class="contact-form misterfy-style">
+                        <h3 class="form-title">Форма заявки</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Ім'я</label>
+                                <input type="text" id="name" name="name" placeholder="Ваше ім'я" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surname">Прізвище</label>
+                                <input type="text" id="surname" name="surname" placeholder="Ваше прізвище" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="Ваш email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Телефон</label>
+                                <input type="tel" id="phone" name="phone" placeholder="Ваш номер телефону" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Назва компанії</label>
+                            <input type="text" id="company" name="company" placeholder="Назва вашої компанії">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fleet_size">Розмір автопарку</label>
+                            <select id="fleet_size" name="fleet_size" required>
+                                <option value="" disabled selected>Виберіть розмір автопарку</option>
+                                <option value="1-3">1-3 автомобілі</option>
+                                <option value="4-10">4-10 автомобілів</option>
+                                <option value="10+">10+ автомобілів</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="plan">Тарифний план</label>
+                            <select id="plan" name="plan" required>
+                                <option value="" disabled selected>Виберіть тарифний план</option>
+                                <option value="basic">Basic</option>
+                                <option value="premium">Premium</option>
+                                <option value="enterprise">Enterprise</option>
+                                <option value="franchise">Franchise</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Повідомлення</label>
+                            <textarea id="message" name="message" placeholder="Ваше повідомлення" rows="4"></textarea>
+                        </div>
+                        
+                        <div class="form-group checkbox">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">Я погоджуюсь з <a href="#">умовами використання</a> та <a href="#">політикою конфіденційності</a></label>
+                        </div>
+                        
+                        <button type="submit" class="btn primary btn-full">Відправити заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <img src="images/logo_optimized.png" alt="xBank Logo">
-                    <p>xBank – Banking without borders, always connected, always for people.</p>
+                    <img src="/images/mrvan-logo-white.png" alt="MrVan Logo">
+                    <p>The ultimate platform for campervan rental businesses</p>
                 </div>
-                <!-- Footer navigation removed as requested -->
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Our Team</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Press</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Partners</h3>
+                        <ul>
+                            <li><a href="#">Become a Partner</a></li>
+                            <li><a href="#">Partner Login</a></li>
+                            <li><a href="#">Success Stories</a></li>
+                            <li><a href="#">Resources</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Support</h3>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 xBank. All rights reserved.</p>
+                <p>&copy; 2025 MrVan Partners. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
     </footer>
+
+    <!-- JavaScript -->    
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Simple JavaScript for FAQ toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize: Hide all answers initially
+            document.querySelectorAll('.faq-answer').forEach(answer => {
+                answer.style.display = 'none';
+            });
+            
+            // Add click event to all FAQ questions
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling;
+                    const toggle = this.querySelector('.faq-toggle');
+                    
+                    // Toggle visibility
+                    if (answer.style.display === 'block') {
+                        answer.style.display = 'none';
+                        toggle.textContent = '+';
+                    } else {
+                        answer.style.display = 'block';
+                        toggle.textContent = '-';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Form submission handling with Supabase integration
-    const forms = document.querySelectorAll('.beta-form');
+    const forms = document.querySelectorAll('.beta-form, .contact-form');
     
     forms.forEach(form => {
         form.addEventListener('submit', async function(e) {
@@ -84,9 +84,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get form data
             const formData = new FormData(form);
             let formValues = {
-                type: form.closest('.tab-content').id.replace('-tab', ''),
                 created_at: new Date().toISOString()
             };
+            
+            // If it's a tab-content form, add the type
+            const tabContent = form.closest('.tab-content');
+            if (tabContent) {
+                formValues.type = tabContent.id.replace('-tab', '');
+            } else if (form.classList.contains('misterfy-style')) {
+                formValues.type = 'partner-application';
+            }
             
             for (let [key, value] of formData.entries()) {
                 formValues[key] = value;
