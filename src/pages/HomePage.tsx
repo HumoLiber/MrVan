@@ -1,23 +1,7 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { 
-  Box, 
-  Typography, 
-  Button, 
-  Container, 
-  Grid, 
-  Card, 
-  CardContent, 
-  CardMedia 
-} from '@mui/material';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import BusinessIcon from '@mui/icons-material/Business';
-import { useAuth } from '../context/AuthContext';
+import { Container, Typography, Box } from '@mui/material';
 
 const HomePage: React.FC = () => {
-  const { user } = useAuth();
-
   return (
     <Container maxWidth="lg">
       <Box sx={{ my: 4 }}>
