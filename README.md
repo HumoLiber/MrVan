@@ -14,6 +14,7 @@ The MrVan B2B Platform is designed to streamline the onboarding process for part
 - **Material UI** - Component library for consistent design
 - **React Router** - For navigation and routing
 - **Supabase JS Client** - For authentication and data access
+- **Golos Text** - Primary font family
 
 ### Backend
 - **FastAPI** - Python web framework for building APIs
@@ -58,6 +59,38 @@ api/
 - **Admin Dashboard** - For reviewing and approving vehicle submissions
 - **Email Notifications** - Automated emails for status updates
 - **ATOM Mobility Integration** - Seamless integration with ATOM's vehicle management system
+
+## Design System
+
+### Color Palette
+
+The MrVan B2B Platform uses a consistent color palette across all interfaces:
+
+- **Primary Color**: `#d81b60` (Pink/Magenta) - Used for primary buttons, links, and accents
+- **Primary Light**: `#e91e63` (Lighter Pink) - Used for hover states and secondary elements
+- **Secondary Color**: `#8e24aa` (Purple) - Used for secondary actions and highlights
+- **Accent Color**: `#6a1b9a` (Deep Purple) - Used for tertiary actions and special elements
+- **Background**: `#FFFFFF` (White) - Main background color
+- **Background Alt**: `#F7F9FA` (Light Gray) - Used for alternate sections and cards
+- **Text**: `#333333` (Dark Gray) - Primary text color
+- **Text Muted**: `#757575` (Medium Gray) - Secondary text color
+
+### Typography
+
+- **Primary Font**: Golos Text (Google Fonts)
+- **Font Weights**: 400 (Regular), 500 (Medium), 700 (Bold)
+- **Base Font Size**: 16px (1rem)
+- **Heading Sizes**:
+  - H1: 3rem (48px)
+  - H2: 2.5rem (40px)
+  - H3: 1.5rem (24px)
+
+### Components
+
+- **Buttons**: Rounded (border-radius: 50px) with consistent padding and hover effects
+- **Cards**: White background with subtle shadows and rounded corners
+- **Icons**: Emoji icons for feature highlights, can be replaced with SVG or Material icons
+- **Spacing**: Consistent padding and margins based on a 8px grid system
 
 ## Getting Started
 
