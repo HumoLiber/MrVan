@@ -31,9 +31,5 @@
       "NPM_FLAGS": "--legacy-peer-deps"
     }
   },
-  "crons": [],
-  "dependencies": {
-    "supabase": "0.7.1",
-    "httpx": "0.23.0"
-  }
+  "crons": []
 }
