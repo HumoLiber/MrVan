@@ -1,0 +1,11 @@
+{
+  "mcps": [
+    {
+      "name": "supabase-db",
+      "type": "postgres",
+      "connection": {
+        "connectionString": "${env:DATABASE_URL}"
+      }
+    }
+  ]
+} 

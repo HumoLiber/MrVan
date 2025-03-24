@@ -21,6 +21,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import { useSupabase } from '../context/SupabaseContext';
+import { VehicleFormData, DelegationMode, Document, ApiError } from '../types';
 
 const steps = ['Vehicle Information', 'Upload Documents', 'Confirm Details'];
 
@@ -33,11 +34,13 @@ const AddVehiclePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   
   // Vehicle form state
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
-  const [year, setYear] = useState<number | ''>('');
-  const [licensePlate, setLicensePlate] = useState('');
-  const [delegationMode, setDelegationMode] = useState('full_delegation');
+  const [vehicleData, setVehicleData] = useState<VehicleFormData>({
+    brand: '',
+    model: '',
+    year: '',
+    license_plate: '',
+    delegation_mode: 'full_delegation' as DelegationMode
+  });
   
   // Document upload state
   const [insuranceDoc, setInsuranceDoc] = useState<File | null>(null);
@@ -57,10 +60,10 @@ const AddVehiclePage: React.FC = () => {
     if (activeStep === 0) {
       // Validate vehicle info
       const errors = {
-        brand: !brand,
-        model: !model,
-        year: !year,
-        licensePlate: !licensePlate,
+        brand: !vehicleData.brand,
+        model: !vehicleData.model,
+        year: !vehicleData.year,
+        licensePlate: !vehicleData.license_plate,
         insuranceDoc: false,
         registrationDoc: false
       };
@@ -108,15 +111,15 @@ const AddVehiclePage: React.FC = () => {
     
     try {
       // 1. Create vehicle record
-      const { data: vehicleData, error: vehicleError } = await supabase
+      const { data: vehicleResponse, error: vehicleError } = await supabase
         .from('vehicles')
         .insert([
           {
-            brand,
-            model,
-            year,
-            license_plate: licensePlate,
-            delegation_mode: delegationMode,
+            brand: vehicleData.brand,
+            model: vehicleData.model,
+            year: vehicleData.year,
+            license_plate: vehicleData.license_plate,
+            delegation_mode: vehicleData.delegation_mode,
             status: 'draft',
             user_id: user?.id
           }
@@ -125,7 +128,8 @@ const AddVehiclePage: React.FC = () => {
       
       if (vehicleError) throw vehicleError;
       
-      const vehicleId = vehicleData[0].id;
+      const vehicleId = vehicleResponse?.[0]?.id;
+      if (!vehicleId) throw new Error('Failed to create vehicle record');
       
       // 2. Upload documents to storage
       if (insuranceDoc) {
@@ -204,8 +208,8 @@ const AddVehiclePage: React.FC = () => {
                 fullWidth
                 id="brand"
                 label="Brand"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
+                value={vehicleData.brand}
+                onChange={(e) => setVehicleData({...vehicleData, brand: e.target.value})}
                 error={formErrors.brand}
                 helperText={formErrors.brand ? 'Brand is required' : ''}
               />
@@ -216,8 +220,8 @@ const AddVehiclePage: React.FC = () => {
                 fullWidth
                 id="model"
                 label="Model"
-                value={model}
-                onChange={(e) => setModel(e.target.value)}
+                value={vehicleData.model}
+                onChange={(e) => setVehicleData({...vehicleData, model: e.target.value})}
                 error={formErrors.model}
                 helperText={formErrors.model ? 'Model is required' : ''}
               />
@@ -229,8 +233,8 @@ const AddVehiclePage: React.FC = () => {
                 id="year"
                 label="Year"
                 type="number"
-                value={year}
-                onChange={(e) => setYear(e.target.value ? parseInt(e.target.value) : '')}
+                value={vehicleData.year}
+                onChange={(e) => setVehicleData({...vehicleData, year: e.target.value ? parseInt(e.target.value) : ''})}
                 error={formErrors.year}
                 helperText={formErrors.year ? 'Year is required' : ''}
                 inputProps={{ min: 1900, max: new Date().getFullYear() }}
@@ -242,8 +246,8 @@ const AddVehiclePage: React.FC = () => {
                 fullWidth
                 id="licensePlate"
                 label="License Plate"
-                value={licensePlate}
-                onChange={(e) => setLicensePlate(e.target.value)}
+                value={vehicleData.license_plate}
+                onChange={(e) => setVehicleData({...vehicleData, license_plate: e.target.value})}
                 error={formErrors.licensePlate}
                 helperText={formErrors.licensePlate ? 'License plate is required' : ''}
               />
@@ -254,18 +258,18 @@ const AddVehiclePage: React.FC = () => {
                 <Select
                   labelId="delegation-mode-label"
                   id="delegation-mode"
-                  value={delegationMode}
+                  value={vehicleData.delegation_mode}
                   label="Delegation Mode"
-                  onChange={(e) => setDelegationMode(e.target.value)}
+                  onChange={(e) => setVehicleData({...vehicleData, delegation_mode: e.target.value as DelegationMode})}
                 >
                   <MenuItem value="service_only">Service Only</MenuItem>
                   <MenuItem value="partial">Partial Help</MenuItem>
                   <MenuItem value="full_delegation">Full Delegation</MenuItem>
                 </Select>
                 <FormHelperText>
-                  {delegationMode === 'full_delegation' 
+                  {vehicleData.delegation_mode === 'full_delegation' 
                     ? 'MrVan will fully manage your vehicle' 
-                    : delegationMode === 'partial' 
+                    : vehicleData.delegation_mode === 'partial' 
                       ? 'You will partially manage your vehicle' 
                       : 'You will manage your vehicle, MrVan provides service only'}
                 </FormHelperText>
@@ -352,26 +356,26 @@ const AddVehiclePage: React.FC = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2">Brand:</Typography>
-                    <Typography variant="body1">{brand}</Typography>
+                    <Typography variant="body1">{vehicleData.brand}</Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2">Model:</Typography>
-                    <Typography variant="body1">{model}</Typography>
+                    <Typography variant="body1">{vehicleData.model}</Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2">Year:</Typography>
-                    <Typography variant="body1">{year}</Typography>
+                    <Typography variant="body1">{vehicleData.year}</Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography variant="subtitle2">License Plate:</Typography>
-                    <Typography variant="body1">{licensePlate}</Typography>
+                    <Typography variant="body1">{vehicleData.license_plate}</Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="subtitle2">Delegation Mode:</Typography>
                     <Typography variant="body1">
-                      {delegationMode === 'full_delegation' 
+                      {vehicleData.delegation_mode === 'full_delegation' 
                         ? 'Full Delegation' 
-                        : delegationMode === 'partial' 
+                        : vehicleData.delegation_mode === 'partial' 
                           ? 'Partial Help' 
                           : 'Service Only'}
                     </Typography>
