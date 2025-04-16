@@ -32,7 +32,7 @@ const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState('private');
+  const [userType, setUserType] = useState<'private' | 'company'>('private');
   const [companyName, setCompanyName] = useState('');
   const [taxId, setTaxId] = useState('');
   
@@ -60,13 +60,19 @@ const RegisterPage: React.FC = () => {
     
     try {
       // Register user with Supabase Auth
-      const { data, error: signUpError } = await signUp(email, password);
+      const { user, error: signUpError } = await signUp({
+        email,
+        password,
+        userType,
+        companyName,
+        taxId
+      });
       
       if (signUpError) throw signUpError;
       
-      if (data) {
+      if (user) {
         // If registration successful, create profile in database
-        const userId = data.user?.id;
+        const userId = user.id;
         
         if (userId) {
           // Create profile based on user type
@@ -125,7 +131,7 @@ const RegisterPage: React.FC = () => {
               row
               name="user-type"
               value={userType}
-              onChange={(e) => setUserType(e.target.value)}
+              onChange={(e) => setUserType(e.target.value as 'private' | 'company')}
             >
               <FormControlLabel value="private" control={<Radio />} label="Private Person" />
               <FormControlLabel value="company" control={<Radio />} label="Company" />

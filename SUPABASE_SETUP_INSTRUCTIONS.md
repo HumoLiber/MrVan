@@ -48,3 +48,5 @@ When deploying to Vercel, you should add these environment variables in the Verc
 3. Add each of the variables from the `.env` file
 
 This ensures your API has access to these credentials in the production environment.
+Vercel CLI 41.4.1
+? Set up and deploy "~/Development/Mr.Van/partners.mistervan.es"? (Y/n)

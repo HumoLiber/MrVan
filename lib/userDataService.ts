@@ -7,19 +7,19 @@ export interface UserData {
   phone?: string;
 }
 
-export interface VehicleData {
-  owner_id: string;
-  make: string;
-  model: string;
-  year: number;
-  plate: string;
-  delegation_model: 'service_only' | 'partial_help' | 'full';
+interface DocumentData {
+  userId: string;
+  docType: 'id' | 'proof_funds' | 'vehicle_ownership' | 'insurance' | 'other';
+  filePath: string;
+  fileName: string;
+  uploadedAt: Date;
 }
 
-interface DocumentData {
-  user_id: string;
-  doc_type: string;
-  file_url: string;
+interface LogData {
+  userId: string;
+  action: string;
+  details?: any;
+  timestamp: Date;
 }
 
 /**
@@ -46,6 +46,15 @@ export async function submitUserData(userData: UserData) {
       return { success: false, error: userError, message: 'Не вдалося зберегти дані користувача' };
     }
 
+    // Зберігаємо специфічні дані в залежності від ролі
+    if (userData.role === 'investor') {
+      await saveInvestorData(user.id, userData);
+    } else if (userData.role === 'company' || userData.role === 'private_owner') {
+      await saveOwnerData(user.id, userData);
+    } else if (userData.role === 'agency' || userData.role === 'agent') {
+      await saveCollaboratorData(user.id, userData);
+    }
+
     // Логуємо успішну реєстрацію
     await logUserAction(user.id, 'registration_completed', userData);
 
@@ -65,83 +74,48 @@ export async function submitUserData(userData: UserData) {
 }
 
 /**
- * Функція для створення транспортного засобу
+ * Збереження даних інвестора
  */
-export async function createVehicle(vehicleData: VehicleData) {
-  try {
-    const { data, error } = await supabase
-      .from('vehicles')
-      .insert([{
-        owner_id: vehicleData.owner_id,
-        make: vehicleData.make,
-        model: vehicleData.model,
-        year: vehicleData.year,
-        plate: vehicleData.plate,
-        delegation_model: vehicleData.delegation_model,
-        status: 'draft',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }])
-      .select('id')
-      .single();
-
-    if (error) {
-      console.error('Помилка при створенні авто:', error);
-      return { success: false, error, message: 'Не вдалося створити транспортний засіб' };
-    }
-
-    // Логуємо створення транспортного засобу
-    await logUserAction(vehicleData.owner_id, 'vehicle_created', {
-      vehicle_id: data.id,
-      make: vehicleData.make,
-      model: vehicleData.model
-    });
-
-    return { success: true, data, message: 'Транспортний засіб успішно створено' };
-  } catch (error) {
-    console.error('Загальна помилка при створенні авто:', error);
-    return { success: false, error, message: 'Сталася непередбачена помилка при створенні авто' };
-  }
+async function saveInvestorData(userId: string, userData: any) {
+  return await supabase
+    .from('investors')
+    .insert([{
+      user_id: userId,
+      investment_amount: userData.investmentAmount || null,
+      regions_of_interest: userData.regionsOfInterest || null
+    }]);
 }
 
 /**
- * Функція для створення/підписання угоди
+ * Збереження даних власника (компанії або приватної особи)
  */
-export async function createAgreement(userId: string, agreementType: string) {
-  try {
-    const { data, error } = await supabase
-      .from('agreements')
-      .insert([{
-        user_id: userId,
-        agreement_type: agreementType,
-        signature_status: 'pending',
-        created_at: new Date().toISOString()
-      }])
-      .select('id')
-      .single();
-
-    if (error) {
-      console.error('Помилка при створенні угоди:', error);
-      return { success: false, error, message: 'Не вдалося створити угоду' };
-    }
-
-    // Логуємо створення угоди
-    await logUserAction(userId, 'agreement_created', {
-      agreement_id: data.id,
-      agreement_type: agreementType
-    });
-
-    return { success: true, data, message: 'Угоду успішно створено' };
-  } catch (error) {
-    console.error('Загальна помилка при створенні угоди:', error);
-    return { success: false, error, message: 'Сталася непередбачена помилка при створенні угоди' };
-  }
+async function saveOwnerData(userId: string, userData: any) {
+  return await supabase
+    .from('owners')
+    .insert([{
+      user_id: userId,
+      delegation_type: userData.delegationType || 'full_delegation',
+      vehicle_count: userData.vehicleCount || 1
+    }]);
 }
 
 /**
- * Функція для завантаження документів
+ * Збереження даних співпрацівника (агентство або агент)
  */
-export async function uploadDocument(userId: string, docType: string, file: File) {
+async function saveCollaboratorData(userId: string, userData: any) {
+  return await supabase
+    .from('collaborators')
+    .insert([{
+      user_id: userId,
+      collaboration_scope: userData.collaborationScope || null,
+      experience_years: userData.experienceYears || null
+    }]);
+}
+
+/**
+ * Функція для мокового завантаження документів
+ */
+export async function uploadDocument(userId: string, docType: DocumentData['docType'], file: File) {
   try {
     // В реальному проекті тут було б фактичне завантаження файлу
     // Для мокового режиму просто симулюємо завантаження
@@ -152,12 +126,12 @@ export async function uploadDocument(userId: string, docType: string, file: File
     
     // Зберігаємо запис про документ
     const { data, error } = await supabase
-      .from('user_documents')
+      .from('documents')
       .insert([{
         user_id: userId,
         doc_type: docType,
-        file_url: filePath,
-        status: 'uploaded',
+        file_path: filePath,
+        file_name: file.name,
         uploaded_at: new Date().toISOString()
       }]);
 
@@ -178,31 +152,24 @@ export async function uploadDocument(userId: string, docType: string, file: File
 
 /**
  * Функція для логування дій користувача
- * Зберігає логи в локальному storage, оскільки таблиці логування немає в схемі
  */
 export async function logUserAction(userId: string, action: string, details?: any) {
   try {
-    // Оскільки таблиці логування немає в схемі, зберігаємо в localStorage
-    const log = {
-      user_id: userId,
-      action,
-      details: details ? JSON.stringify(details) : null,
-      timestamp: new Date().toISOString()
-    };
-    
-    // Отримуємо поточні логи
-    const logsJson = localStorage.getItem('user_logs') || '[]';
-    const logs = JSON.parse(logsJson);
-    
-    // Додаємо новий лог
-    logs.push(log);
-    
-    // Зберігаємо оновлені логи
-    localStorage.setItem('user_logs', JSON.stringify(logs));
-    
-    console.log('Дію користувача записано в локальне сховище:', log);
-    
-    return { success: true, data: log };
+    const { data, error } = await supabase
+      .from('user_logs')
+      .insert([{
+        user_id: userId,
+        action,
+        details: details ? JSON.stringify(details) : null,
+        timestamp: new Date().toISOString()
+      }]);
+
+    if (error) {
+      console.error('Помилка при логуванні дії користувача:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, data };
   } catch (error) {
     console.error('Загальна помилка при логуванні:', error);
     return { success: false, error };

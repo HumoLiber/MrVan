@@ -1,7 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { AuthService, SignUpData } from '../services/authService';
-import { supabaseClient } from '../services/supabaseClient';
+import { createClient } from '@supabase/supabase-js';
+
+// Створення клієнта Supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 interface AuthContextType {
   session: Session | null;

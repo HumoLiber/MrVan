@@ -3,9 +3,9 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useState } from 'react';
-import FormInput from '../../app/components/FormInput';
-import FormSelect from '../../app/components/FormSelect';
-import Layout from '../../app/components/Layout';
+import FormInput from '../../components/FormInput';
+import FormSelect from '../../components/FormSelect';
+import Layout from '../../components/Layout';
 
 export default function CollaboratorAgentOnboarding() {
   const { t } = useTranslation('common');

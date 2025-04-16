@@ -1,6 +1,6 @@
 {
-  "../app/components/Layout.tsx -> ../../public/locales/en/common.json": {
-    "id": "../app/components/Layout.tsx -> ../../public/locales/en/common.json",
+  "../components/Layout.tsx -> ../public/locales/en/common.json": {
+    "id": "../components/Layout.tsx -> ../public/locales/en/common.json",
     "files": [
       "static/chunks/public_locales_en_common_json.js"
     ]

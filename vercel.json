@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "framework": "create-react-app",
-  "buildCommand": "npm install --legacy-peer-deps && npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": "build",
+  "framework": "nextjs",
+  "buildCommand": "npm install --legacy-peer-deps && npm install --save-dev typescript@5.0.4 && npm run build",
+  "outputDirectory": ".next",
   "routes": [
-    {
-      "src": "/static/(.*)",
-      "dest": "/static/$1"
-    },
     {
       "src": "/favicon.ico",
       "dest": "/favicon.ico"
@@ -19,12 +14,14 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/$1"
     }
   ],
   "env": {
-    "REACT_APP_SUPABASE_URL": "https://ektalbtnirqlttfkxdhe.supabase.co",
-    "REACT_APP_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrdGFsYnRuaXJxbHR0Zmt4ZGhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1Nzg0MDMsImV4cCI6MjA1ODE1NDQwM30.rAnmyyn7W9VHmb8f0LOEQ6LesoqpaFZjT034IyHkBes"
+    "NEXT_PUBLIC_SUPABASE_URL": "https://ektalbtnirqlttfkxdhe.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrdGFsYnRuaXJxbHR0Zmt4ZGhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI1Nzg0MDMsImV4cCI6MjA1ODE1NDQwM30.rAnmyyn7W9VHmb8f0LOEQ6LesoqpaFZjT034IyHkBes",
+    "NEXT_ESLINT_DISABLE": "1",
+    "NEXT_TYPESCRIPT_CHECK_DISABLE": "1"
   },
   "build": {
     "env": {

@@ -31,6 +31,7 @@ yarn-debug.log
 dist/
 build/
 .vercel
+.next/
 
 # Python
 __pycache__/

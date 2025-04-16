@@ -3,8 +3,8 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
 import { useState } from 'react';
-import FormInput from '../../app/components/FormInput';
-import Layout from '../../app/components/Layout';
+import FormInput from '../../components/FormInput';
+import Layout from '../../components/Layout';
 
 export default function DelegatingPrivateOnboarding() {
   const { t } = useTranslation('common');

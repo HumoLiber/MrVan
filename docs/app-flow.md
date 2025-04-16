@@ -1,7 +1,7 @@
 # App Flow
 
-🚀 **Version:** 0.4 (Updated with multi-role onboarding)  
-📅 **Date:** 2025-03-24  
+🚀 **Version:** 0.5 (Updated with DocuSign integration)  
+📅 **Date:** 2025-04-01  
 👨‍💻 **Authors:** Ilia, Andrea  
 
 ---
@@ -164,6 +164,7 @@ Below is the **typical scenario** (historically developed) for B2B users or priv
 6. **Step 6: eSign (DocuSign)**  
    - The system sends an agreement corresponding to user type and delegation model  
    - On successful signing → `signed_at` / `signature_status = signed`
+   - Uses JWT authentication for secure API access
 
 7. **Step 7: Admin Processing & Approval**  
    - Admin reviews docs, contract, status  
@@ -177,7 +178,22 @@ Below is the **typical scenario** (historically developed) for B2B users or priv
    - "Approved" → camper is available according to the chosen delegation mode
    - "Rejected" → user must correct or provide additional data
 
-### 2.8 Моніторинг Процесів через MCP
+### 2.8 DocuSign Інтеграція
+
+📑 **DocuSign eSignature** використовується для безпечного електронного підписання документів:
+
+- 🔑 **JWT Авторизація** - безпечна авторизація через JWT токени
+- 📤 **Створення Конвертів** - API для створення документів для підписання
+- 📲 **Вбудоване Підписання** - інтегроване підписання без необхідності виходу на зовнішні сайти
+- 📊 **Моніторинг Статусу** - відстеження процесу підписання в реальному часі
+- 🔧 **Необхідні Змінні Середовища**:
+  - `DOCUSIGN_USER_ID`
+  - `DOCUSIGN_ACCOUNT_ID`
+  - `DOCUSIGN_INTEGRATION_KEY`
+  - `DOCUSIGN_BASE_PATH`
+  - `DOCUSIGN_PRIVATE_KEY`
+
+### 2.9 Моніторинг Процесів через MCP
 
 🔍 **MCP (Monitoring Control Panel)** використовується для моніторингу всіх процесів:
 
@@ -190,7 +206,48 @@ Below is the **typical scenario** (historically developed) for B2B users or priv
 
 ---
 
-## 3. Visual Flow (Mermaid Sequence Diagram)
+## 3. API Endpoints для DocuSign
+
+### 3.1 Створення Конверта для Підписання
+
+🔹 **Endpoint:** `/api/docusign/create-envelope`  
+🔹 **Метод:** POST  
+🔹 **Параметри запиту:**
+  - `documentId` - ID документа
+  - `signerEmail` - Email підписанта
+  - `signerName` - Ім'я підписанта
+  - `documentPath` - Шлях до документа для підписання
+  
+🔹 **Відповідь:** 
+```json
+{
+  "success": true,
+  "envelopeId": "abc123-xyz789"
+}
+```
+
+### 3.2 Отримання URL для Вбудованого Підписання
+
+🔹 **Endpoint:** `/api/docusign/embedded-signing`  
+🔹 **Метод:** POST  
+🔹 **Параметри запиту:**
+  - `envelopeId` - ID конверта для підписання
+  - `returnUrl` - URL для повернення після підписання
+  - `signerEmail` - Email підписанта
+  - `signerName` - Ім'я підписанта
+  - `signerClientId` - (опціонально) ID клієнта
+  
+🔹 **Відповідь:** 
+```json
+{
+  "success": true,
+  "signingUrl": "https://demo.docusign.net/Signing/..."
+}
+```
+
+---
+
+## 4. Visual Flow (Mermaid Sequence Diagram)
 
 ```mermaid
 sequenceDiagram
@@ -225,7 +282,11 @@ sequenceDiagram
     Supabase-->>SetupMyCar: success/fail
     
     alt If phone verified
-        SetupMyCar->>DocuSign: Request eSign for relevant agreement
+        SetupMyCar->>DocuSign: Create envelope (POST /api/docusign/create-envelope)
+        DocuSign-->>SetupMyCar: Return envelopeId
+        SetupMyCar->>DocuSign: Get signing URL (POST /api/docusign/embedded-signing)
+        DocuSign-->>SetupMyCar: Return signing URL
+        SetupMyCar->>User: Show embedded signing interface
         User->>DocuSign: Sign digitally
         DocuSign-->>SetupMyCar: Callback "signed"
         SetupMyCar->>Supabase: Update signature status
