@@ -1,9 +1,0 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-  "/signup": "pages/signup.js",
-  "/onboarding/investor": "pages/onboarding/investor.js",
-  "/onboarding/delegatingPrivate": "pages/onboarding/delegatingPrivate.js",
-  "/onboarding/collaboratorAgency": "pages/onboarding/collaboratorAgency.js"
-}
