@@ -8,34 +8,34 @@ const readFileAsync = util.promisify(fs.readFile);
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Метод не дозволений' });
+    return res.status(405).json({ message: 'Method not allowed' });
   }
 
   try {
     const { documentId, signerEmail, signerName, documentPath } = req.body;
 
-    // Перевірка обов'язкових параметрів
+    // Check required parameters
     if (!documentId || !signerEmail || !signerName || !documentPath) {
-      return res.status(400).json({ message: 'Відсутні обов'язкові параметри' });
+      return res.status(400).json({ message: 'Missing required parameters' });
     }
 
-    // Читання документа
+    // Read document
     let documentBase64;
     try {
-      // Якщо документPath є повним шляхом або URL - обробляємо його відповідно
-      // Для прикладу, читаємо з файлової системи
+      // If documentPath is a full path or URL, handle it accordingly
+      // For example, read from file system
       const filePath = path.resolve(process.cwd(), documentPath);
       const fileBuffer = await readFileAsync(filePath);
       documentBase64 = fileBuffer.toString('base64');
     } catch (error) {
-      console.error('Помилка читання документа:', error);
-      return res.status(500).json({ message: 'Помилка читання документа', error });
+      console.error('Error reading document:', error);
+      return res.status(500).json({ message: 'Error reading document', error });
     }
 
-    // Назва документа
+    // Document name
     const documentName = path.basename(documentPath);
 
-    // Створення конверта
+    // Create envelope
     const envelope = await createSigningEnvelope(
       documentBase64, 
       documentName, 
@@ -44,16 +44,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       signerName
     );
 
-    // Повертаємо ідентифікатор конверта
+    // Return envelope ID
     return res.status(200).json({ 
       success: true, 
       envelopeId: envelope.envelopeId 
     });
 
   } catch (error) {
-    console.error('Помилка створення конверта:', error);
+    console.error('Error creating envelope:', error);
     return res.status(500).json({ 
-      message: 'Помилка створення конверта', 
+      message: 'Error creating envelope', 
       error: error instanceof Error ? error.message : String(error) 
     });
   }
