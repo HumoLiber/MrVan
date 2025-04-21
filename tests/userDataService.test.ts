@@ -1,3 +1,5 @@
+// Тестовий файл для userDataService.js. Необхідний для деплою на Vercel!
+// Added for Vercel deployment on $(date)
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { submitUserData, uploadDocument, logUserAction } from '../lib/userDataService';
 import supabase from '../lib/supabase';
