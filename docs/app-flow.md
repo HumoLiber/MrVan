@@ -1,8 +1,8 @@
 # App Flow
 
-🚀 **Version:** 0.5 (Updated with DocuSign integration)  
-📅 **Date:** 2025-04-01  
-👨‍💻 **Authors:** Ilia, Andrea  
+🚀 **Version:** 0.6 (Updated with WordPress integration & Koster)  
+📅 **Date:** 2025-04-22  
+👨‍💻 **Authors:** Ilia, Andrea, Humo  
 
 ---
 
@@ -16,7 +16,7 @@
 - **Collaborator Agencies**  
 - **Collaborator Agents**
 
-It also covers the typical registration (onboarding) flow for B2B users (and private owners) to add a camper, verify via phone (OTP), sign a DocuSign contract, and proceed to admin approval. If needed—especially for "Full Delegation" cases—the system integrates with ATOM Mobility.
+It also covers the typical registration (onboarding) flow for B2B users (and private owners) to add a camper, verify via phone (OTP), sign a DocuSign contract, and proceed to admin approval. If needed—especially for "Full Delegation" cases—the system integrates with Koster. The platform now also supports WordPress integration for the registration form.
 
 ---
 
@@ -74,7 +74,7 @@ It also covers the typical registration (onboarding) flow for B2B users (and pri
 
 🔍 5. **Admin Review**  
    - Admin checks documents and signature  
-   - If "Full Delegation," then the ATOM Mobility integration may follow
+   - If "Full Delegation," then the Koster integration may follow
 
 ---
 
@@ -98,7 +98,7 @@ It also covers the typical registration (onboarding) flow for B2B users (and pri
 
 🔍 5. **Admin Review**  
    - Admin checks documents and signatures  
-   - If approved, possible ATOM Mobility integration for Full Delegation
+   - If approved, possible Koster integration for Full Delegation
 
 ---
 
@@ -170,15 +170,31 @@ Below is the **typical scenario** (historically developed) for B2B users or priv
    - Admin reviews docs, contract, status  
    - Sets "approved," "rejected," or "needs_more_info"
 
-8. **Step 8: Integration with ATOM**  
-   - If "Full Delegation" → create vehicle via ATOM API  
-   - Save `atom_vehicle_id` in `vehicles` table
+8. **Step 8: Integration with Koster**  
+   - If "Full Delegation" → create vehicle via Koster API  
+   - Save `koster_vehicle_id` in `vehicles` table
 
-9. **Result**  
+9. **Step 9: Email Notification**  
+   - System sends a copy of the signed document to the user's email
+   - Confirmation of successful registration is sent
+
+10. **Result**  
    - "Approved" → camper is available according to the chosen delegation mode
    - "Rejected" → user must correct or provide additional data
 
-### 2.8 DocuSign Інтеграція
+### 2.8 WordPress Інтеграція
+
+🌐 **WordPress Integration** дозволяє вбудувати реєстраційну форму на WordPress сайт:
+
+- 📝 **Вбудована форма** - можливість інтегрувати форму реєстрації безпосередньо на WordPress сайт
+- 🔄 **Синхронізація даних** - всі дані з форми автоматично передаються в основну систему
+- 🎯 **B2B фокус** - оптимізовано для бізнес-клієнтів та партнерів
+- 🛠️ **Необхідні налаштування**:
+  - Створення WordPress плагіну або шорткоду
+  - Налаштування API ендпоінтів для прийому даних
+  - Забезпечення безпечної передачі даних між системами
+
+### 2.9 DocuSign Інтеграція
 
 📑 **DocuSign eSignature** використовується для безпечного електронного підписання документів:
 
@@ -193,7 +209,7 @@ Below is the **typical scenario** (historically developed) for B2B users or priv
   - `DOCUSIGN_BASE_PATH`
   - `DOCUSIGN_PRIVATE_KEY`
 
-### 2.9 Моніторинг Процесів через MCP
+### 2.10 Моніторинг Процесів через MCP
 
 🔍 **MCP (Monitoring Control Panel)** використовується для моніторингу всіх процесів:
 

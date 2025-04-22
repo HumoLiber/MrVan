@@ -7,6 +7,8 @@ Our goal is to manage:
 - B2B **companies** and their **users**,
 - **vehicles** (campers) owned by those companies,
 - **documents** (e.g. contracts, insurance),
+- **WordPress integration** for registration forms,
+- **email notifications** for signed documents,
 - optional **rentals** (if we store booking data here),
 - **payouts** (commissions, revenue sharing).
 
@@ -18,7 +20,7 @@ sequenceDiagram
     participant Supabase as Supabase DB
     participant DocuSign as DocuSign eSign
     participant Admin as MrVan Admin
-    participant ATOM as ATOM Mobility
+    participant Koster as Koster
     
     Note over User: Step 1: Decide user type\n(Private or Company)
     
@@ -66,9 +68,10 @@ sequenceDiagram
         
         alt Approved
             Admin->>Supabase: Set vehicle “approved”
-            Admin->>ATOM: Create vehicle if full delegation \nor needed for next steps
-            ATOM-->>Admin: Return vehicle_id
-            Admin->>Supabase: Save atom_vehicle_id
+            Admin->>Koster: Create vehicle if full delegation \nor needed for next steps
+            Koster-->>Admin: Return vehicle_id
+            Admin->>Supabase: Save koster_vehicle_id
+            Admin->>User: Send signed document via email
             Note over Admin,Supabase: Vehicle integrated with ATOM
         else Not Approved
             Admin->>Supabase: Mark status=“rejected” or request more info
@@ -78,8 +81,13 @@ sequenceDiagram
         Note over SetupMyCar: no eSign triggered, \ncan't proceed to admin
     end
     
-    Note over User,Admin: Done. If approved, user’s camper is managed according to chosen mode
-
+    Note over User,Admin: Done. If approved, user's camper is managed according to chosen mode
+    
+    Note over User,SetupMyCar: WordPress Integration
+    User->>WordPress: Access registration form on WordPress site
+    WordPress->>SetupMyCar: Submit registration data via API
+    SetupMyCar->>Supabase: Store data
+    SetupMyCar->>User: Continue with regular flow (OTP, DocuSign, etc.)
 
 ## 2. Data Schema
 
@@ -147,12 +155,27 @@ Below is a high-level list of the primary tables:
 | `license_plate`   | `text`         | Plate number.                                                |
 | `status`          | `text`         | e.g. `draft`, `approved`, `rejected`.                        |
 | `delegation_mode` | `text`         | e.g. `service_only`, `partial`, `full_delegation`.           |
-| `atom_vehicle_id` | `text`         | If synced with ATOM, store the returned ID.                  |
+| `koster_vehicle_id` | `text`         | If synced with Koster, store the returned ID.                |
 | `created_at`      | `timestamptz`  | When the record was created.                                 |
 | `updated_at`      | `timestamptz`  | When the record was last updated.                            |
 
 **Purpose**: Core table for storing camper data. The front end references this table to display or update vehicle details.  
 **RLS**: Only the owner (user/company) sees their vehicles, or admins see all.
+
+---
+
+#### 5. `wordpress_submissions`
+| Field         | Type           | Description                                                  |
+|---------------|----------------|--------------------------------------------------------------|
+| `id`          | `uuid (PK)`    | Unique submission ID.                                        |
+| `form_id`     | `text`         | Identifier for the WordPress form used.                      |
+| `user_data`   | `jsonb`        | JSON data containing all form fields submitted.              |
+| `status`      | `text`         | e.g. `new`, `processed`, `error`.                           |
+| `created_at`  | `timestamptz`  | When the submission was created.                             |
+| `processed_at`| `timestamptz`  | When the submission was processed.                           |
+
+**Purpose**: Stores submissions from WordPress forms before they are processed into the main system.  
+**RLS**: Only admins can see all submissions.
 
 ---
 
@@ -189,15 +212,25 @@ Below is a high-level list of the primary tables:
 
 ### 2.3 Additional/Future Tables
 
-- **`rentals`**: if storing booking data inside your system (not just in ATOM).  
+- **`rentals`**: if storing booking data inside your system (not just in Koster).  
 - **`payouts`**: if you track revenue sharing, commissions.  
 - **`maintenance`**: if you track maintenance logs, repairs, or check-ups.
+- **`email_logs`**: for tracking email notifications sent to users.
 
 ---
 
 ### 2.4 File Storage (Buckets)
 
 We use **Supabase Storage** for storing uploaded documents. Typically, you might set up:
+
+### 2.5 WordPress Integration
+
+For the WordPress integration, we use:
+
+- **REST API** for data transfer between WordPress and the main system
+- **Custom plugin or shortcode** to embed the registration form on WordPress
+- **JWT authentication** to secure API endpoints
+- **Webhook notifications** to trigger actions when new submissions are received
 
 1. **`company-docs`** bucket  
    - Path structure: `company-{company_id}/{document_id}/filename.pdf`
