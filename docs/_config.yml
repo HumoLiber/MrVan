@@ -1,0 +1,16 @@
+exclude:
+  - "_next/**"
+  - "*.html"
+  - "*.js"
+  - "*.css"
+  - "*.json"
+  - "*.svg"
+  - "*.png"
+  - "*.ico"
+
+include:
+  - ".nojekyll"
+
+# Відключаємо всі плагіни Jekyll
+plugins: []
+theme: null 
