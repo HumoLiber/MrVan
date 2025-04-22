@@ -8,9 +8,12 @@ import DocumentUploader from '../../components/DocumentUploader';
 import InvestmentCalculator, { InvestmentCalculationResult } from '../../components/InvestmentCalculator';
 import DocumentSigner from '../../components/DocumentSigner';
 import { FormEvent } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function InvestorOnboarding() {
   const { t } = useTranslation('common');
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -19,15 +22,14 @@ export default function InvestorOnboarding() {
     address: '',
     companyName: '',
     taxId: '',
-    investmentAmount: 30000,
-    investmentCountry: 'spain',
-    fundsOriginCountry: '',
-    additionalNotes: '',
+    investmentAmount: 15000,
   });
   const [uploadedDocuments, setUploadedDocuments] = useState<Array<{name: string, url: string}>>([]);
   const [calculationResult, setCalculationResult] = useState<InvestmentCalculationResult | null>(null);
   const [signatureCompleted, setSignatureCompleted] = useState(false);
   const [signatureData, setSignatureData] = useState<string>('');
+  const [registrationComplete, setRegistrationComplete] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -69,36 +71,105 @@ export default function InvestorOnboarding() {
     }
   };
 
-  const goBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+  const handleComplete = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Тут буде логіка збереження даних до Supabase або іншої бази даних
+      console.log('Submitting final data:', {
+        formData,
+        uploadedDocuments,
+        calculationResult,
+        signatureData
+      });
+      
+      // Імітуємо запит до сервера
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Позначаємо реєстрацію як завершену
+      setRegistrationComplete(true);
+      
+      // Через 3 секунди перенаправляємо на головну сторінку або дешборд
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  // Контент договору інвестора (приклад)
+  const goBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    } else {
+      // На першому кроці переходимо на сторінку вибору ролі
+      router.push('/signup');
+    }
+  };
+
+  // Розширений контент договору інвестора
   const investorAgreementContent = (
-    <div>
+    <div className="text-sm max-h-96 overflow-y-auto pr-2">
       <h3 className="text-lg font-semibold mb-3">Investment Agreement</h3>
-      <p className="mb-2">This Investor Agreement ("Agreement") is entered into between:</p>
-      <p className="mb-4"><strong>MrVan B.V.</strong> ("Company"), a company registered in Spain, and {formData.fullName || "Investor"} ("Investor")</p>
+      <p className="mb-2">This Investor Agreement (&quot;Agreement&quot;) is entered into between:</p>
+      <p className="mb-4"><strong>MrVan B.V.</strong> (&quot;Company&quot;), a company registered in Spain, and {formData.fullName || "Investor"} (&quot;Investor&quot;)</p>
       
       <h4 className="font-semibold mt-4 mb-2">1. Investment Amount</h4>
-      <p className="mb-3">The Investor agrees to invest €{formData.investmentAmount.toLocaleString()} in the Company's campervan fleet expansion project.</p>
+      <p className="mb-3">The Investor agrees to invest €{formData.investmentAmount.toLocaleString()} in the Company&apos;s campervan fleet expansion project.</p>
       
       <h4 className="font-semibold mt-4 mb-2">2. Expected Returns</h4>
       <p className="mb-3">Based on the investment calculator projections, the expected annual return is {calculationResult?.roiPercentage.toFixed(1)}%, resulting in a monthly income of approximately €{calculationResult?.monthlyIncome.toFixed(0)}.</p>
       
       <h4 className="font-semibold mt-4 mb-2">3. Investment Term</h4>
-      <p className="mb-3">The minimum investment term is 12 months from the date of fund transfer.</p>
+      <p className="mb-3">The minimum investment term is 12 months from the date of fund transfer. Early withdrawal may be subject to penalties as outlined in section 7.</p>
       
       <h4 className="font-semibold mt-4 mb-2">4. Payment Schedule</h4>
-      <p className="mb-3">Returns will be paid monthly to the Investor's designated bank account.</p>
+      <p className="mb-3">Returns will be paid monthly to the Investor&apos;s designated bank account. Payments will be processed on the 15th day of each month, or the next business day if the 15th falls on a weekend or holiday.</p>
       
       <h4 className="font-semibold mt-4 mb-2">5. Risk Disclosure</h4>
-      <p className="mb-3">The Investor acknowledges that all investments carry inherent risks, and past performance is not indicative of future results.</p>
+      <p className="mb-3">The Investor acknowledges that all investments carry inherent risks, and past performance is not indicative of future results. The Company does not guarantee returns, and the Investor may lose part or all of their investment.</p>
       
       <h4 className="font-semibold mt-4 mb-2">6. Governing Law</h4>
-      <p className="mb-3">This Agreement shall be governed by the laws of Spain.</p>
+      <p className="mb-3">This Agreement shall be governed by the laws of Spain. Any disputes arising from this Agreement shall be resolved through arbitration in Madrid, Spain.</p>
+      
+      <h4 className="font-semibold mt-4 mb-2">7. Early Termination</h4>
+      <p className="mb-3">If the Investor wishes to terminate this Agreement before the minimum investment term of 12 months, the following penalties will apply:</p>
+      <ul className="list-disc list-inside mb-3 ml-4">
+        <li>Termination within 0-3 months: 10% of the investment amount</li>
+        <li>Termination within 4-6 months: 7% of the investment amount</li>
+        <li>Termination within 7-9 months: 5% of the investment amount</li>
+        <li>Termination within 10-12 months: 3% of the investment amount</li>
+      </ul>
+      
+      <h4 className="font-semibold mt-4 mb-2">8. Company Obligations</h4>
+      <p className="mb-3">The Company agrees to:</p>
+      <ul className="list-disc list-inside mb-3 ml-4">
+        <li>Use the investment funds solely for the purpose of expanding and maintaining its campervan fleet</li>
+        <li>Provide quarterly reports on the performance of the investment</li>
+        <li>Maintain appropriate insurance coverage for all vehicles</li>
+        <li>Ensure proper management and maintenance of all vehicles</li>
+      </ul>
+      
+      <h4 className="font-semibold mt-4 mb-2">9. Investor Rights</h4>
+      <p className="mb-3">The Investor shall have the right to:</p>
+      <ul className="list-disc list-inside mb-3 ml-4">
+        <li>Receive monthly returns as specified in this Agreement</li>
+        <li>Access quarterly performance reports</li>
+        <li>Terminate the Agreement subject to the conditions in section 7</li>
+        <li>Transfer the investment to another party with prior written approval from the Company</li>
+      </ul>
+      
+      <h4 className="font-semibold mt-4 mb-2">10. Confidentiality</h4>
+      <p className="mb-3">Both parties agree to maintain the confidentiality of all information exchanged in relation to this Agreement, except as required by law or regulatory authorities.</p>
+      
+      <h4 className="font-semibold mt-4 mb-2">11. Amendments</h4>
+      <p className="mb-3">Any amendments to this Agreement must be made in writing and signed by both parties.</p>
+      
+      <h4 className="font-semibold mt-4 mb-2">12. Entire Agreement</h4>
+      <p className="mb-3">This Agreement constitutes the entire understanding between the parties concerning the subject matter hereof and supersedes all prior agreements, understandings, or negotiations.</p>
     </div>
   );
 
@@ -114,9 +185,18 @@ export default function InvestorOnboarding() {
         <div className="container-custom">
           <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             <div className="p-8">
-              <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">
+              <h1 className="text-3xl font-bold text-center text-gray-900 mb-4">
                 💼 Investor Registration
               </h1>
+              
+              <p className="text-center text-gray-600 mb-4 max-w-2xl mx-auto">
+                Join our community of investors and earn attractive returns by investing in our premium campervan fleet. 
+                Calculate your potential earnings, provide your details, and start your investment journey with MrVan.
+              </p>
+              <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto font-medium">
+                Note: After signing the agreement, our platform will contact you with payment instructions. No payment is required during registration. 
+                You will only make a payment after our team reviews and countersigns your agreement.
+              </p>
               
               {/* Progress Indicator */}
               <div className="mb-8">
@@ -159,29 +239,39 @@ export default function InvestorOnboarding() {
                 </div>
               </div>
 
-              <form onSubmit={handleSubmit}>
-                {/* Step 1: Investment Details & Calculator */}
-                {currentStep === 1 && (
-                  <div className="space-y-6">
-                    <h2 className="text-xl font-semibold text-indigo-600 mb-4">Investment Details</h2>
-                    
-                    <InvestmentCalculator onCalculate={handleInvestmentCalculation} />
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Additional Notes (Optional)
-                      </label>
-                      <textarea
-                        name="additionalNotes"
-                        value={formData.additionalNotes}
-                        onChange={handleChange}
-                        rows={3}
-                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="Any additional details about your investment goals or questions"
-                      ></textarea>
-                    </div>
+              {registrationComplete ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
                   </div>
-                )}
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Complete!</h2>
+                  <p className="text-gray-600 mb-4">
+                    Thank you for registering as an investor with MrVan. We've received your information and will contact you shortly to finalize your investment.
+                  </p>
+                  <p className="text-gray-600 mb-6">
+                    Our team will review your application and contact you with payment instructions. You will only need to make a payment after we've approved and countersigned your agreement.
+                  </p>
+                  <p className="text-gray-600 mb-6">
+                    You will be redirected to your dashboard in a few seconds...
+                  </p>
+                  <div className="flex justify-center">
+                    <Link href="/dashboard" className="btn-primary">
+                      Go to Dashboard
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={currentStep === 4 && signatureCompleted ? handleComplete : handleSubmit}>
+                  {/* Step 1: Investment Details & Calculator */}
+                  {currentStep === 1 && (
+                    <div className="space-y-6">
+                      <h2 className="text-xl font-semibold text-indigo-600 mb-4">Investment Details</h2>
+                      
+                      <InvestmentCalculator onCalculate={handleInvestmentCalculation} />
+                    </div>
+                  )}
 
                 {/* Step 2: Personal Information */}
                 {currentStep === 2 && (
@@ -324,6 +414,16 @@ export default function InvestorOnboarding() {
                       documentContent={investorAgreementContent}
                       onSignComplete={handleSignatureComplete}
                     />
+                    
+                    <div className="mt-4 p-3 bg-blue-50 text-blue-700 rounded-md">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span className="font-medium">Important:</span>
+                        <span className="ml-1">Signing this agreement doesn't require immediate payment. Our team will review your application and contact you with payment instructions after approval.</span>
+                      </div>
+                    </div>
 
                     {signatureCompleted && (
                       <div className="mt-4 p-3 bg-green-50 text-green-700 rounded-md">
@@ -339,27 +439,40 @@ export default function InvestorOnboarding() {
                 )}
 
                 <div className="mt-8 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={goBack}
-                    className={`btn-secondary ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    disabled={currentStep === 1}
-                  >
-                    Back
-                  </button>
+                  {currentStep === 1 ? (
+                    <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4">
+                      Back
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={goBack}
+                      className="btn-secondary"
+                    >
+                      Back
+                    </button>
+                  )}
                   
                   <button
-                    type={currentStep === 4 && signatureCompleted ? 'submit' : 'button'}
-                    onClick={currentStep < 4 ? handleSubmit : undefined}
+                    type="submit"
                     className={`btn-primary ${
-                      currentStep === 4 && !signatureCompleted ? 'opacity-50 cursor-not-allowed' : ''
+                      (currentStep === 4 && !signatureCompleted) || isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
-                    disabled={currentStep === 4 && !signatureCompleted}
+                    disabled={(currentStep === 4 && !signatureCompleted) || isSubmitting}
                   >
-                    {currentStep < 3 ? 'Continue' : currentStep === 3 ? 'Next' : 'Complete'}
+                    {isSubmitting ? (
+                      <span className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                      </span>
+                    ) : currentStep < 3 ? 'Continue' : currentStep === 3 ? 'Next' : 'Complete'}
                   </button>
                 </div>
               </form>
+              )}
             </div>
           </div>
         </div>
@@ -374,4 +487,4 @@ export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => {
       ...(await serverSideTranslations(locale, ['common'])),
     },
   };
-}; 
+};

@@ -255,40 +255,52 @@ const VehicleDetailsPage: React.FC = () => {
           
           {/* Documents Card */}
           <Grid item xs={12} md={6}>
-            <Card sx={{ height: '100%' }}>
+            <Card>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Documents
+                <Typography variant="h6" component="div" gutterBottom>
+                  Associated Documents
                 </Typography>
-                
-                {documents.length === 0 ? (
-                  <Alert severity="info" sx={{ mt: 2 }}>
-                    No documents found for this vehicle
-                  </Alert>
-                ) : (
-                  <List>
+                {documents.length > 0 ? (
+                  <List dense>
                     {documents.map((doc) => (
-                      <ListItem key={doc.id}>
+                      <ListItem 
+                        key={doc.id}
+                        secondaryAction={
+                          <Chip label={doc.status} size="small" color={getStatusColor(doc.status) as any} />
+                        }
+                      >
                         <ListItemIcon>
                           <InsertDriveFileIcon />
                         </ListItemIcon>
                         <ListItemText 
                           primary={getDocumentTypeLabel(doc.doc_type)} 
-                          secondary={`Status: ${doc.status}`}
+                          secondary={`Uploaded: ${new Date(doc.created_at).toLocaleDateString()}`}
                         />
-                        <Button 
-                          variant="outlined" 
-                          size="small" 
-                          href={doc.file_url} 
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View
-                        </Button>
                       </ListItem>
                     ))}
                   </List>
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    No documents uploaded for this vehicle yet.
+                  </Typography>
                 )}
+              </CardContent>
+              {/* Potential area for document upload action? */}
+            </Card>
+          </Grid>
+          
+          {/* Actions Card/Section (Optional) */}
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="div" gutterBottom>
+                  Actions
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Here you could place actions like 'Edit Vehicle', 'Request Service', etc.
+                </Typography>
+                {/* Example Button */}
+                <Button variant="outlined" sx={{ mt: 2 }}>Edit Details</Button>
               </CardContent>
             </Card>
           </Grid>
@@ -309,13 +321,13 @@ const VehicleDetailsPage: React.FC = () => {
                 
                 {vehicle.status === 'pending' && (
                   <Alert severity="info" sx={{ mt: 2 }}>
-                    Your vehicle is currently under review by our team. We'll update you once the review is complete.
+                    Your vehicle is currently under review by our team. We&apos;ll update you once the review is complete.
                   </Alert>
                 )}
                 
                 {vehicle.status === 'approved' && (
                   <Alert severity="success" sx={{ mt: 2 }}>
-                    Your vehicle has been approved! {vehicle.atom_vehicle_id ? 'It has been integrated with ATOM Mobility.' : ''}
+                    Your vehicle has been approved! {vehicle.atom_vehicle_id ? 'It&apos;s has been integrated with ATOM Mobility.' : ''}
                   </Alert>
                 )}
                 

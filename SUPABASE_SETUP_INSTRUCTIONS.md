@@ -30,7 +30,7 @@ SMTP_PORT=587
 SMTP_USER=your-smtp-username
 SMTP_PASSWORD=your-smtp-password
 EMAILS_FROM_EMAIL=info@mistervan.es
-EMAILS_FROM_NAME=MrVan B2B Platform
+EMAILS_FROM_NAME=MisterVan B2B Platform
 ```
 
 ## Important Notes:

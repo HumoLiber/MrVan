@@ -48,8 +48,8 @@ export default function CollaboratorAgentOnboarding() {
   return (
     <Layout>
       <Head>
-        <title>Agent Onboarding | MrVan</title>
-        <meta name="description" content="Register as an agent with MrVan" />
+        <title>Agent Onboarding | MisterVan</title>
+        <meta name="description" content="Register as an agent with MisterVan" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -61,7 +61,7 @@ export default function CollaboratorAgentOnboarding() {
                 👨‍💼 Agent Registration
               </h1>
               <p className="text-gray-600 mb-8 text-center">
-                Become an official MrVan agent and connect camper owners with renters.
+                Become an official MisterVan agent and connect camper owners with renters.
               </p>
 
               <form onSubmit={handleSubmit}>
@@ -156,13 +156,9 @@ export default function CollaboratorAgentOnboarding() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => window.history.back()}
-                    className="btn-secondary"
-                  >
+                  <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4">
                     Back
-                  </button>
+                  </a>
                   <button
                     type="submit"
                     className="btn-primary"

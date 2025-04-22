@@ -49,7 +49,7 @@ export default function SuccessPage() {
                 </Link>
                 
                 <div className="text-sm text-gray-500 mt-4">
-                  Виникли запитання? Зв'яжіться з нами <a href="mailto:support@mistervan.es" className="text-indigo-600 hover:underline">support@mistervan.es</a>
+                  Виникли запитання? Зв&apos;яжіться з нами <a href="mailto:support@mistervan.es" className="text-indigo-600 hover:underline">support@mistervan.es</a>
                 </div>
               </div>
             </div>

@@ -61,7 +61,7 @@ const Navbar: React.FC = () => {
               textDecoration: 'none',
             }}
           >
-            MrVan Partners
+            MisterVan Partners
           </Typography>
 
           {/* Mobile Menu */}
@@ -129,7 +129,7 @@ const Navbar: React.FC = () => {
               textDecoration: 'none',
             }}
           >
-            MrVan
+            MisterVan
           </Typography>
 
           {/* Desktop Menu */}

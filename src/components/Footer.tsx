@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
     >
       <Container maxWidth="sm">
         <Typography variant="body1" align="center">
-          © {new Date().getFullYear()} MrVan B2B Partners Portal
+          {new Date().getFullYear()} MisterVan B2B Partners Portal
         </Typography>
         <Typography variant="body2" color="text.secondary" align="center">
           {'Built with '}

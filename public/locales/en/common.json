@@ -6,8 +6,8 @@
     "login": "Login"
   },
   "hero": {
-    "title": "MrVan B2B Partners Platform",
-    "description": "A comprehensive solution for industry representatives to register and manage their vehicles with MrVan. Join our network of partners and grow your business.",
+    "title": "MisterVan B2B Partners Platform",
+    "description": "A comprehensive solution for industry representatives to register and manage their vehicles with MisterVan. Join our network of partners and grow your business.",
     "getStarted": "Get Started"
   },
   "roles": {
@@ -17,7 +17,7 @@
       "description": "Invest in the future of campervan tourism with flexible and profitable opportunities."
     },
     "delegatingCompany": {
-      "title": "Delegating Company Owner",
+      "title": "Delegating Company",
       "description": "Manage your company's fleet of campervans with our efficient B2B tools."
     },
     "delegatingPrivate": {
@@ -26,17 +26,17 @@
     },
     "collaboratorAgency": {
       "title": "Collaborator Agency",
-      "description": "Partner with MrVan to expand your tourism agency's services and offerings."
+      "description": "Partner with MisterVan to expand your tourism agency's services and offerings."
     },
     "collaboratorAgent": {
       "title": "Collaborator Agent",
-      "description": "Become an official MrVan agent and connect owners with renters."
+      "description": "Become an official MisterVan agent and connect owners with renters. Make up to 30eur/1 hour of work."
     },
     "continue": "Continue"
   },
   "features": {
-    "title": "Why Choose MrVan?",
-    "subtitle": "At MrVan, we offer you the freedom to enjoy a campervan according to different usage plans, always with the aim of responding to your needs.",
+    "title": "Why Choose MisterVan?",
+    "subtitle": "At MisterVan, we offer you the freedom to enjoy a campervan according to different usage plans, always with the aim of responding to your needs.",
     "tailored": {
       "title": "Tailored to you",
       "description": "Choose from the available usage plans based on your needs. From 2 days to 1 year, it's up to you!"
@@ -69,18 +69,18 @@
   },
   "footer": {
     "tagline": "Connecting campervan owners with trusted partners",
-    "copyright": "© 2025 MrVan. All rights reserved."
+    "copyright": " 2025 MisterVan. All rights reserved."
   },
   "signup": {
     "title": "Choose your role",
-    "subtitle": "Select the role that best describes your business with MrVan",
+    "subtitle": "Select the role that best describes your business with MisterVan",
     "roles": {
       "investor": {
         "title": "Investor",
         "description": "Invest in campers and receive profit"
       },
       "company": {
-        "title": "Company Owner",
+        "title": "Delegating Company",
         "description": "Delegate the management of your campers"
       },
       "private": {
@@ -89,11 +89,11 @@
       },
       "agency": {
         "title": "Collaborator Agency",
-        "description": "Collaborate with MrVan as an agency"
+        "description": "Collaborate with MisterVan as an agency"
       },
       "agent": {
         "title": "Collaborator Agent",
-        "description": "Collaborate with MrVan as an individual agent"
+        "description": "Collaborate with MisterVan as an individual agent. Make up to 30eur/1 hour of work."
       },
       "modernization": {
         "title": "Vehicle Modernization",
@@ -107,4 +107,4 @@
     "continue": "Continue",
     "back": "Back"
   }
-} 
+}

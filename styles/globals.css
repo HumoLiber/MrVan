@@ -39,6 +39,24 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(79, 70, 229, 0.1);
+  transform: translateY(-1px);
+}
+
 .bg-bg-alt {
   background-color: #f3f4f6;
 }
@@ -69,4 +87,9 @@ body {
     padding: 0.375rem 0.75rem;
     font-size: 0.875rem;
   }
-} 
+  
+  .btn-secondary {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         router.push(router.pathname, router.asPath, { locale: savedLanguage });
       }
     }
-  }, []);
+  }, [router]);
   
   return <Component {...pageProps} />;
 }

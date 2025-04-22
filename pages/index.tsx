@@ -37,8 +37,8 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>MrVan - Camper Management Platform</title>
-        <meta name="description" content="MrVan - B2B platform for camper management" />
+        <title>MisterVan - Camper Management Platform</title>
+        <meta name="description" content="MisterVan - B2B platform for camper management" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       

@@ -145,13 +145,9 @@ export default function DelegatingPrivateOnboarding() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => window.history.back()}
-                    className="btn-secondary"
-                  >
+                  <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4">
                     Back
-                  </button>
+                  </a>
                   <button
                     type="submit"
                     className="btn-primary"

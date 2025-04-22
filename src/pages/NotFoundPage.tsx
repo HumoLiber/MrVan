@@ -25,7 +25,7 @@ const NotFoundPage: React.FC = () => {
           Page Not Found
         </Typography>
         <Typography variant="body1" color="text.secondary" paragraph sx={{ maxWidth: 480, mb: 4 }}>
-          Sorry, we couldn't find the page you're looking for. The page might have been moved, deleted, or never existed.
+          Sorry, we couldn&apos;t find the page you&apos;re looking for. The page might have been moved, deleted, or never existed.
         </Typography>
         <Button
           variant="contained"

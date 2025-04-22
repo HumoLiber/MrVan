@@ -66,7 +66,7 @@ export default function Signup() {
     },
     {
       id: 'delegatingCompany',
-      title: translations.signup?.roles?.company?.title || 'Company Owner',
+      title: translations.signup?.roles?.company?.title || 'Delegating Company',
       description: translations.signup?.roles?.company?.description || 'Delegate the management of your campers',
       icon: '🏢'
     },
@@ -79,13 +79,13 @@ export default function Signup() {
     {
       id: 'collaboratorAgency',
       title: translations.signup?.roles?.agency?.title || 'Collaborator Agency',
-      description: translations.signup?.roles?.agency?.description || 'Collaborate with MrVan as an agency',
+      description: translations.signup?.roles?.agency?.description || 'Collaborate with MisterVan as an agency',
       icon: '🤝'
     },
     {
       id: 'collaboratorAgent',
       title: translations.signup?.roles?.agent?.title || 'Collaborator Agent',
-      description: translations.signup?.roles?.agent?.description || 'Collaborate with MrVan as an individual agent',
+      description: translations.signup?.roles?.agent?.description || 'Collaborate with MisterVan as an individual agent. Make up to 30eur/1 hour of work.',
       icon: '👥'
     },
     {
@@ -105,8 +105,8 @@ export default function Signup() {
   return (
     <Layout>
       <Head>
-        <title>{translations.signup?.title || 'Sign Up'} | MrVan</title>
-        <meta name="description" content="Choose your role in MrVan B2B platform" />
+        <title>{translations.signup?.title || 'Sign Up'} | MisterVan</title>
+        <meta name="description" content="Choose your role in MisterVan B2B platform" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

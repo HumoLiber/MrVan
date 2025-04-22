@@ -2,17 +2,16 @@ import { GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FormInput from '../../components/FormInput';
-import FormSelect from '../../components/FormSelect';
 import Layout from '../../components/Layout';
 import supabase from '../../lib/supabase';
 import { useRouter } from 'next/router';
 
-export default function DelegatingCompanyOnboarding() {
+export default function CamperInfoOnboarding() {
   const { t } = useTranslation('common');
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [companyData, setCompanyData] = useState({
     companyName: '',
     registrationNumber: '',
     contactPersonName: '',
@@ -20,6 +19,9 @@ export default function DelegatingCompanyOnboarding() {
     phone: '',
     address: '',
     delegationModel: '',
+    agreeToModernize: false,
+  });
+  const [formData, setFormData] = useState({
     camperMake: '',
     camperModel: '',
     camperYear: '',
@@ -29,7 +31,25 @@ export default function DelegatingCompanyOnboarding() {
   const [formError, setFormError] = useState<string | null>(null);
   const [formSuccess, setFormSuccess] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  // Load saved company data from localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem('companyRegistrationData');
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        setCompanyData(parsedData);
+      } catch (e) {
+        console.error('Error parsing saved company data:', e);
+        // Redirect back to company info if data is missing
+        router.push('/onboarding/companyInfo');
+      }
+    } else {
+      // Redirect back to company info if no data is found
+      router.push('/onboarding/companyInfo');
+    }
+  }, [router]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -40,20 +60,20 @@ export default function DelegatingCompanyOnboarding() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Скидаємо статуси
+    // Reset statuses
     setFormError(null);
     setFormSuccess(null);
     setIsSubmitting(true);
     
     try {
-      // 1. Зберігаємо дані про компанію в таблицю users
+      // 1. Save company data to users table
       const { data: userData, error: userError } = await supabase
         .from('users')
         .insert([{
-          email: formData.email,
-          name: formData.contactPersonName,
+          email: companyData.email,
+          name: companyData.contactPersonName,
           role: 'company',
-          phone: formData.phone,
+          phone: companyData.phone,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }])
@@ -61,13 +81,13 @@ export default function DelegatingCompanyOnboarding() {
         .single();
       
       if (userError) {
-        throw new Error(`Помилка при збереженні даних компанії: ${userError.message}`);
+        throw new Error(`Error saving company data: ${userError.message}`);
       }
       
       const userId = userData.id;
-      console.log('Компанію успішно зареєстровано з ID:', userId);
+      console.log('Company successfully registered with ID:', userId);
       
-      // 2. Створюємо транспортний засіб
+      // 2. Create vehicle
       const { data: vehicleData, error: vehicleError } = await supabase
         .from('vehicles')
         .insert([{
@@ -76,7 +96,8 @@ export default function DelegatingCompanyOnboarding() {
           model: formData.camperModel,
           year: parseInt(formData.camperYear) || new Date().getFullYear(),
           plate: formData.camperPlate,
-          delegation_model: formData.delegationModel.replace('-', '_'), // конвертуємо 'service-only' в 'service_only'
+          delegation_model: companyData.delegationModel.replace('-', '_'), // convert 'service-only' to 'service_only'
+          modernize_agreed: companyData.agreeToModernize,
           status: 'draft',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
@@ -85,53 +106,50 @@ export default function DelegatingCompanyOnboarding() {
         .single();
       
       if (vehicleError) {
-        throw new Error(`Помилка при збереженні даних транспортного засобу: ${vehicleError.message}`);
+        throw new Error(`Error saving vehicle data: ${vehicleError.message}`);
       }
       
-      console.log('Транспортний засіб успішно зареєстровано з ID:', vehicleData.id);
+      console.log('Vehicle successfully registered with ID:', vehicleData.id);
       
-      // 3. Створюємо угоду для підписання
+      // 3. Create agreement for signing
       const { data: agreementData, error: agreementError } = await supabase
         .from('agreements')
         .insert([{
           user_id: userId,
-          agreement_type: `company_${formData.delegationModel}`,
+          agreement_type: `company_${companyData.delegationModel}`,
           signature_status: 'pending',
           created_at: new Date().toISOString()
         }])
         .select('id');
       
       if (agreementError) {
-        console.warn('Застереження: не вдалося створити угоду:', agreementError);
+        console.warn('Warning: failed to create agreement:', agreementError);
       }
       
-      // Успіх! Показуємо повідомлення і перенаправляємо
-      setFormSuccess('Дані успішно збережено! Перенаправляємо на наступний крок...');
+      // Success! Show message and redirect
+      setFormSuccess('Data successfully saved! Redirecting to the next step...');
       
-      // Затримка перед перенаправленням
+      // Clear localStorage after successful submission
+      localStorage.removeItem('companyRegistrationData');
+      
+      // Delay before redirect
       setTimeout(() => {
         router.push('/onboarding/success');
       }, 2000);
       
     } catch (error) {
-      console.error('Помилка при обробці форми:', error);
-      setFormError(error instanceof Error ? error.message : 'Сталася невідома помилка при збереженні даних');
+      console.error('Error processing form:', error);
+      setFormError(error instanceof Error ? error.message : 'An unknown error occurred while saving data');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const delegationOptions = [
-    { value: 'service-only', label: 'Service Only' },
-    { value: 'partial-help', label: 'Partial Help' },
-    { value: 'full-delegation', label: 'Full Delegation' },
-  ];
-
   return (
     <Layout>
       <Head>
-        <title>Company Onboarding | MrVan</title>
-        <meta name="description" content="Register your company's campers with MrVan" />
+        <title>Camper Information | MrVan</title>
+        <meta name="description" content="Register your camper fleet with MrVan" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -140,10 +158,10 @@ export default function DelegatingCompanyOnboarding() {
           <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             <div className="p-8">
               <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">
-                🏢 Company Registration
+                🚐 Camper Registration
               </h1>
               <p className="text-gray-600 mb-8 text-center">
-                Register your company and camper fleet with MrVan.
+                Register your camper fleet with MrVan.
               </p>
               
               {formError && (
@@ -160,75 +178,7 @@ export default function DelegatingCompanyOnboarding() {
 
               <form onSubmit={handleSubmit}>
                 <div className="space-y-4">
-                  <h2 className="text-xl font-semibold text-indigo-600 mt-6 mb-4">Company Information</h2>
-                  
-                  <FormInput
-                    id="companyName"
-                    name="companyName"
-                    label="Company Name"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormInput
-                    id="registrationNumber"
-                    name="registrationNumber"
-                    label="Registration Number"
-                    value={formData.registrationNumber}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormInput
-                    id="contactPersonName"
-                    name="contactPersonName"
-                    label="Contact Person Name"
-                    value={formData.contactPersonName}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormInput
-                    id="email"
-                    name="email"
-                    type="email"
-                    label="Email Address"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormInput
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    label="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormInput
-                    id="address"
-                    name="address"
-                    label="Business Address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    required
-                  />
-                  
-                  <FormSelect
-                    id="delegationModel"
-                    name="delegationModel"
-                    label="Delegation Model"
-                    value={formData.delegationModel}
-                    onChange={handleChange}
-                    options={delegationOptions}
-                    required
-                  />
-                  
-                  <h2 className="text-xl font-semibold text-indigo-600 mt-8 mb-4">Camper Information</h2>
+                  <h2 className="text-xl font-semibold text-indigo-600 mt-6 mb-4">Camper Information</h2>
                   
                   <FormInput
                     id="camperMake"
@@ -269,15 +219,20 @@ export default function DelegatingCompanyOnboarding() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4" style={{ pointerEvents: isSubmitting ? 'none' : 'auto', opacity: isSubmitting ? 0.7 : 1 }}>
-                    Back
-                  </a>
+                  <button
+                    type="button"
+                    onClick={() => router.push('/onboarding/companyInfo')}
+                    className="btn-secondary"
+                    disabled={isSubmitting}
+                  >
+                    Back to Company Info
+                  </button>
                   <button
                     type="submit"
                     className="btn-primary"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? 'Збереження...' : 'Continue'}
+                    {isSubmitting ? 'Saving...' : 'Complete Registration'}
                   </button>
                 </div>
               </form>
@@ -295,4 +250,4 @@ export const getStaticProps: GetStaticProps = async ({ locale = 'en' }) => {
       ...(await serverSideTranslations(locale, ['common'])),
     },
   };
-}; 
+};
