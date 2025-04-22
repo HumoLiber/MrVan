@@ -1,37 +1,13 @@
-name: Deploy to GitHub Pages
+# Відключаємо цей workflow, оскільки ми використовуємо вбудований GitHub Pages
+name: Disabled
 
 on:
-  push:
-    branches: [ supabase-integration ]
-
-# Налаштування прав для github-actions
-permissions:
-  contents: write
+  # Вимкнено відстеження всіх подій
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  nothing:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps --no-package-lock
-
-      - name: Build
-        run: npm run build
-
-      - name: Create .nojekyll file
-        run: touch out/.nojekyll
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: out
-          branch: gh-pages 
+      - name: Do nothing
+        run: echo "This workflow is disabled" 
