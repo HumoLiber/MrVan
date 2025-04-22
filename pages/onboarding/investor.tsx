@@ -440,9 +440,9 @@ export default function InvestorOnboarding() {
 
                 <div className="mt-8 flex items-center justify-between">
                   {currentStep === 1 ? (
-                    <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4">
-                      Back
-                    </a>
+                    <Link href="/signup" className="text-blue-500 hover:text-blue-700">
+                      {t('back_to_signup')}
+                    </Link>
                   ) : (
                     <button
                       type="button"

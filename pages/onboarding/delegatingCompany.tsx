@@ -8,6 +8,7 @@ import FormSelect from '../../components/FormSelect';
 import Layout from '../../components/Layout';
 import supabase from '../../lib/supabase';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function DelegatingCompanyOnboarding() {
   const { t } = useTranslation('common');
@@ -269,9 +270,9 @@ export default function DelegatingCompanyOnboarding() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4" style={{ pointerEvents: isSubmitting ? 'none' : 'auto', opacity: isSubmitting ? 0.7 : 1 }}>
-                    Back
-                  </a>
+                  <Link href="/signup/" className="text-blue-500 hover:text-blue-700">
+                    {t('back_to_signup')}
+                  </Link>
                   <button
                     type="submit"
                     className="btn-primary"

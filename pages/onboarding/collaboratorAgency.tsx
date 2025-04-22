@@ -6,6 +6,7 @@ import { useState } from 'react';
 import FormInput from '../../components/FormInput';
 import FormSelect from '../../components/FormSelect';
 import Layout from '../../components/Layout';
+import Link from 'next/link';
 
 export default function CollaboratorAgencyOnboarding() {
   const { t } = useTranslation('common');
@@ -155,9 +156,9 @@ export default function CollaboratorAgencyOnboarding() {
                 </div>
 
                 <div className="mt-8 flex items-center justify-between">
-                  <a href="/signup" className="btn-secondary inline-block text-center py-2 px-4">
-                    Back
-                  </a>
+                  <Link href="/signup/" className="text-blue-500 hover:text-blue-700">
+                    {t('back_to_signup')}
+                  </Link>
                   <button
                     type="submit"
                     className="btn-primary"
