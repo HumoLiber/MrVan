@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   output: 'export',
-  basePath: '/partners.mistervan.es',
+  basePath: '/MrVan',
   images: {
     unoptimized: true,
-  },
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'es', 'ca', 'it', 'fr'],
-    localeDetection: false,
   },
   poweredByHeader: false,
   // Збільшуємо таймаути для більшої стабільності
