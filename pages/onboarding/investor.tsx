@@ -289,7 +289,7 @@ export default function InvestorOnboarding() {
                           value={formData.fullName}
                           onChange={handleChange}
                           required
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                       
@@ -303,7 +303,7 @@ export default function InvestorOnboarding() {
                           value={formData.email}
                           onChange={handleChange}
                           required
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                       
@@ -317,7 +317,7 @@ export default function InvestorOnboarding() {
                           value={formData.phone}
                           onChange={handleChange}
                           required
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                       
@@ -331,7 +331,7 @@ export default function InvestorOnboarding() {
                           value={formData.address}
                           onChange={handleChange}
                           required
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                       
@@ -344,7 +344,7 @@ export default function InvestorOnboarding() {
                           name="companyName"
                           value={formData.companyName}
                           onChange={handleChange}
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                       
@@ -357,7 +357,7 @@ export default function InvestorOnboarding() {
                           name="taxId"
                           value={formData.taxId}
                           onChange={handleChange}
-                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-cyan-600 focus:border-cyan-600 sm:text-sm"
                         />
                       </div>
                     </div>
@@ -439,11 +439,7 @@ export default function InvestorOnboarding() {
                 )}
 
                 <div className="mt-8 flex items-center justify-between">
-                  {currentStep === 1 ? (
-                    <Link href="/signup" className="text-blue-500 hover:text-blue-700">
-                      {t('back_to_signup')}
-                    </Link>
-                  ) : (
+              
                     <button
                       type="button"
                       onClick={goBack}
@@ -451,7 +447,6 @@ export default function InvestorOnboarding() {
                     >
                       Back
                     </button>
-                  )}
                   
                   <button
                     type="submit"

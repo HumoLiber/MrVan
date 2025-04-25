@@ -24,6 +24,7 @@ yarn-debug.log
 # IDE specific files
 .idea/
 .vscode/
+.history
 *.swp
 *.swo
 
