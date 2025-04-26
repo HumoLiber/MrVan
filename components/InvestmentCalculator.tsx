@@ -18,36 +18,32 @@ const InvestmentCalculator: React.FC<InvestmentCalculatorProps> = ({ onCalculate
   const [calculationResult, setCalculationResult] = useState<InvestmentCalculationResult | null>(null);
 
   // Розрахунок інвестиційної доходності
-  useEffect(() => {
-    // Fixed annual return rate of 10%
-    const baseRate = 0.10; // 10% річних
-    
-    // Calculate annual return
-    const annualReturn = investmentAmount * baseRate;
-    
-    // Calculate monthly income
-    const monthlyIncome = annualReturn / 12;
-    
-    // Total return over the investment period
-    const totalReturn = annualReturn * investmentDuration;
-    
-    // ROI percentage
-    const roiPercentage = baseRate * 100;
-    
-    const result: InvestmentCalculationResult = {
-      investmentAmount,
-      annualReturn,
-      monthlyIncome,
-      totalReturn,
-      roiPercentage
-    };
-    
-    setCalculationResult(result);
-    
-    if (onCalculate) {
-      onCalculate(result);
-    }
-  }, [investmentAmount, investmentDuration, onCalculate]);
+// 1. Розрахунок нових даних коли змінюється сума або тривалість
+useEffect(() => {
+  const baseRate = 0.10;
+  const annualReturn = investmentAmount * baseRate;
+  const monthlyIncome = annualReturn / 12;
+  const totalReturn = annualReturn * investmentDuration;
+  const roiPercentage = baseRate * 100;
+
+  const result: InvestmentCalculationResult = {
+    investmentAmount,
+    annualReturn,
+    monthlyIncome,
+    totalReturn,
+    roiPercentage
+  };
+
+  setCalculationResult(result);
+}, [investmentAmount, investmentDuration]);
+
+// 2. Виклик onCalculate коли є нові дані
+useEffect(() => {
+  if (calculationResult && onCalculate) {
+    onCalculate(calculationResult);
+  }
+}, [calculationResult, onCalculate]);
+
 
   // Format numbers with European style thousand separators (using space)
   const formatEuro = (value: number) => {

@@ -53,7 +53,7 @@ export default function Home() {
             <p className="text-lg md:text-xl mb-8 opacity-90">
               {translations.hero.description}
             </p>
-            <Link href="/signup" className="btn-primary text-lg">
+            <Link href="/" className="btn-primary text-lg">
               {translations.hero.getStarted}
             </Link>
           </div>
@@ -151,7 +151,7 @@ export default function Home() {
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             {translations.cta.description}
           </p>
-          <Link href="/signup" className="btn-primary text-lg">
+          <Link href="/" className="btn-primary text-lg">
             {translations.cta.button}
           </Link>
         </div>

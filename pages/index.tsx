@@ -9,25 +9,26 @@ import Layout from '../components/Layout';
 // Тимчасова функція перекладу з підтримкою мов
 const useTranslation = () => {
   const router = useRouter();
-  const { locale } = router;
+  const { locale, pathname } = router;
   const [translations, setTranslations] = useState<any>(null);
 
   useEffect(() => {
-    // Завантажуємо переклади для поточної локалі
+    setTranslations(null);
+    
     import(`../public/locales/${locale}/common.json`)
       .then((module) => {
         setTranslations(module.default);
       })
       .catch(() => {
-        // Якщо переклад не знайдено, використовуємо англійську
         import(`../public/locales/en/common.json`).then((module) => {
           setTranslations(module.default);
         });
       });
-  }, [locale]);
+  }, [locale, pathname]); // 🛠 Додано pathname
 
   return translations;
 };
+
 
 type Role = 'investor' | 'delegatingCompany' | 'delegatingPrivate' | 'collaboratorAgency' | 'collaboratorAgent' | 'vehicleModernization' | 'privateRental';
 

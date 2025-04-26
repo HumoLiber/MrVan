@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Layout from '../../components/Layout';
 import DocumentUploader from '../../components/DocumentUploader';
 import InvestmentCalculator, { InvestmentCalculationResult } from '../../components/InvestmentCalculator';
@@ -42,14 +42,14 @@ export default function InvestorOnboarding() {
   const handleDocumentUpload = (documents: Array<{name: string, url: string}>) => {
     setUploadedDocuments([...uploadedDocuments, ...documents]);
   };
-
-  const handleInvestmentCalculation = (result: InvestmentCalculationResult) => {
+  const handleInvestmentCalculation = useCallback((result: InvestmentCalculationResult) => {
     setCalculationResult(result);
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       investmentAmount: result.investmentAmount
-    });
-  };
+    }));
+  }, []);
+  
 
   const handleSignatureComplete = (data: string) => {
     setSignatureData(data);
@@ -105,8 +105,8 @@ export default function InvestorOnboarding() {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     } else {
-      // На першому кроці переходимо на сторінку вибору ролі
-      router.push('/signup');
+      router.push('/').then(() => router.reload());
+
     }
   };
 
