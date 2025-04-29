@@ -1,13 +1,35 @@
-# Відключаємо цей workflow, оскільки ми використовуємо вбудований GitHub Pages
-name: Disabled
+name: Deploy to GitHub Pages
 
 on:
-  # Вимкнено відстеження всіх подій
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  nothing:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Do nothing
-        run: echo "This workflow is disabled" 
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./partners.mistervan.es
+
+      - name: Build and Export
+        run: npm run export
+        working-directory: ./partners.mistervan.es
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./partners.mistervan.es/out
+          publish_branch: gh-pages
