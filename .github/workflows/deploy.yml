@@ -8,6 +8,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./partners.mistervan.es
     
     steps:
       - name: Checkout
@@ -18,14 +21,13 @@ jobs:
         with:
           node-version: '18.x'
           cache: 'npm'
+          cache-dependency-path: './partners.mistervan.es/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./partners.mistervan.es
 
-      - name: Build and Export
-        run: npm run export
-        working-directory: ./partners.mistervan.es
+      - name: Build
+        run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
