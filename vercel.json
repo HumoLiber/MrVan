@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": "nextjs",
-  "outputDirectory": ".next",
+  "outputDirectory": "out",
   "routes": [
     {
       "src": "/favicon.ico",

@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { appWithTranslation } from 'next-i18next';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -12,8 +13,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       const savedLanguage = localStorage.getItem('preferredLanguage');
       
       if (savedLanguage && router.locale !== savedLanguage) {
-        // Якщо у користувача збережена мова і вона відрізняється від поточної, перенаправляємо
-        router.push(router.pathname, router.asPath, { locale: savedLanguage });
+        // Замість router.push використовуємо window.location для статичного експорту
+        window.location.href = `/${savedLanguage}${router.asPath}`;
       }
     }
   }, [router]);
@@ -21,4 +22,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 }
 
-export default MyApp; 
+export default appWithTranslation(MyApp); 

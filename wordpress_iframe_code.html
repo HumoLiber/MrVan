@@ -1,0 +1,73 @@
+<div class="mrvan-iframe-container">
+    <iframe 
+        src="https://yourwebsite.com/role-selection.html" 
+        id="mrvan-role-selector"
+        frameborder="0" 
+        scrolling="no"
+        style="width:100%; border:none; margin:0 auto; display:block; overflow:hidden;"
+        title="MrVan Role Selection"
+        loading="lazy"
+        onload="resizeIframe(this)"
+    ></iframe>
+</div>
+
+<style>
+    .mrvan-iframe-container {
+        width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
+        overflow: hidden;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    @media (max-width: 768px) {
+        .mrvan-iframe-container {
+            border-radius: 0;
+            box-shadow: none;
+        }
+    }
+</style>
+
+<script>
+    // Автоматичне налаштування висоти iframe
+    function resizeIframe(iframe) {
+        // Початкова висота
+        iframe.style.height = '800px';
+        
+        // Слухач повідомлень від iframe
+        window.addEventListener('message', function(event) {
+            // Перевіряємо повідомлення
+            if (typeof event.data !== 'object') return;
+            
+            // Якщо отримуємо розмір контенту - оновлюємо висоту
+            if (event.data.type === 'iframeHeight') {
+                iframe.style.height = event.data.height + 'px';
+            }
+            
+            // Обробка навігації за ролями
+            if (event.data.type === 'roleSelected') {
+                window.location.href = '/onboarding/' + event.data.role;
+            } else if (event.data.type === 'goBack') {
+                window.history.back();
+            }
+        });
+        
+        // Також перевіряємо розмір через інтервал для надійності
+        setInterval(function() {
+            try {
+                // Отримуємо доступ до iframe тільки для того самого домену
+                if (iframe.contentWindow.document.body) {
+                    const newHeight = iframe.contentWindow.document.body.scrollHeight;
+                    if (newHeight > 300) { // Мінімальна розумна висота
+                        iframe.style.height = newHeight + 50 + 'px'; // +50px для запасу
+                    }
+                }
+            } catch(e) {
+                // Ігноруємо помилки доступу для різних доменів
+                console.log("Iframe на іншому домені, використовуємо messaging API");
+            }
+        }, 1000);
+    }
+</script> 

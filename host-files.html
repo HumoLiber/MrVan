@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Host Files on WordPress</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1, h2, h3 {
+            color: #00a5b5;
+        }
+        
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        
+        .step {
+            margin-bottom: 30px;
+            border-left: 3px solid #00a5b5;
+            padding-left: 20px;
+        }
+        
+        .tip {
+            background-color: #e6f7f8;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        
+        .tip::before {
+            content: "💡 Tip: ";
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚐 Інструкція з розміщення файлів на WordPress</h1>
+    
+    <div class="step">
+        <h2>Крок 1: Завантажте файли на ваш хостинг</h2>
+        <p>Спочатку потрібно завантажити HTML-файл <code>role-selection.html</code> на ваш хостинг.</p>
+        
+        <h3>Варіант 1: Через FTP</h3>
+        <ol>
+            <li>Використовуйте FTP-клієнт (FileZilla, Cyberduck, тощо)</li>
+            <li>Підключіться до вашого хостингу, використовуючи FTP-дані</li>
+            <li>Перейдіть до кореневої директорії вашого WordPress-сайту</li>
+            <li>Завантажте файл <code>role-selection.html</code> в цю директорію (або створіть окрему папку, наприклад, <code>/assets/</code>)</li>
+        </ol>
+        
+        <h3>Варіант 2: Через панель керування хостингом</h3>
+        <ol>
+            <li>Увійдіть до панелі керування хостингом</li>
+            <li>Знайдіть файловий менеджер</li>
+            <li>Перейдіть до кореневої директорії WordPress</li>
+            <li>Завантажте файл <code>role-selection.html</code></li>
+        </ol>
+        
+        <div class="tip">
+            Якщо у вас немає доступу до кореневої директорії WordPress, можете створити піддомен або використати папку <code>/wp-content/uploads/</code>
+        </div>
+    </div>
+    
+    <div class="step">
+        <h2>Крок 2: Налаштуйте сторінку в WordPress</h2>
+        <p>Після завантаження файлу на сервер, вам потрібно створити сторінку в WordPress, яка відображатиме цей файл через iframe.</p>
+        
+        <ol>
+            <li>Створіть нову сторінку в WordPress</li>
+            <li>Перейдіть у режим редагування HTML-коду (треба натиснути на три крапки в редакторі та вибрати "HTML Editor")</li>
+            <li>Вставте наступний код:</li>
+        </ol>
+        
+        <pre>&lt;iframe 
+    src="https://yourwebsite.com/role-selection.html" 
+    width="100%" 
+    height="800" 
+    frameborder="0" 
+    style="border:none; max-width:100%; margin:0 auto; display:block;"
+    title="MrVan Role Selection"
+&gt;&lt;/iframe&gt;
+
+&lt;script&gt;
+    window.addEventListener('message', function(event) {
+        // Make sure message is from our iframe
+        if (typeof event.data !== 'object') return;
+        
+        if (event.data.type === 'roleSelected') {
+            // Redirect to the appropriate onboarding page
+            window.location.href = '/onboarding/' + event.data.role;
+        } else if (event.data.type === 'goBack') {
+            // Go back to the previous page
+            window.history.back();
+        }
+    });
+&lt;/script&gt;</pre>
+        
+        <p>Замініть <code>https://yourwebsite.com/role-selection.html</code> на реальну URL-адресу, де розміщено файл.</p>
+        
+        <div class="tip">
+            Для того, щоб додати JavaScript на сторінку WordPress, вам може знадобитися плагін, наприклад, "Header and Footer Scripts" або "Code Snippets"
+        </div>
+    </div>
+    
+    <div class="step">
+        <h2>Крок 3: Налаштуйте редиректи для onboarding сторінок</h2>
+        <p>Вам потрібно переконатися, що URL-шляхи типу <code>/onboarding/investor</code> правильно перенаправляються на відповідні сторінки.</p>
+        
+        <h3>Варіант 1: Використання плагіна Redirection</h3>
+        <ol>
+            <li>Встановіть та активуйте плагін "Redirection"</li>
+            <li>Перейдіть до Tools > Redirection</li>
+            <li>Додайте правила для кожної ролі, наприклад:</li>
+            <li>Source URL: <code>/onboarding/investor</code>, Target URL: посилання на вашу сторінку для інвесторів</li>
+        </ol>
+        
+        <h3>Варіант 2: Використання .htaccess (для Apache)</h3>
+        <p>Додайте наступні правила до вашого файлу .htaccess:</p>
+        
+        <pre>RewriteEngine On
+RewriteRule ^onboarding/investor/?$ /investor-page/ [L]
+RewriteRule ^onboarding/delegatingCompany/?$ /delegating-company-page/ [L]
+# і так далі для інших ролей</pre>
+    </div>
+    
+    <div class="step">
+        <h2>Крок 4: Тестування</h2>
+        <p>Після налаштування всіх компонентів:</p>
+        
+        <ol>
+            <li>Відкрийте вашу WordPress-сторінку з iframe</li>
+            <li>Виберіть роль та натисніть "Continue"</li>
+            <li>Переконайтесь, що відбувається редирект на правильну сторінку онбордингу</li>
+        </ol>
+    </div>
+    
+    <div class="tip">
+        Якщо хочете розміщувати файли через GitHub Pages замість хостингу WordPress, ви можете завантажити <code>role-selection.html</code> в репозиторій GitHub і використовувати URL виду <code>https://username.github.io/repository/role-selection.html</code> в iframe.
+    </div>
+</body>
+</html> 
