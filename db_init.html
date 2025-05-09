@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primaveravan - Ініціалізація бази даних</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0055aa;
+        }
+        
+        .status-box {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .status-box.success {
+            border-left-color: #28a745;
+            background-color: #d4edda;
+        }
+        
+        .status-box.error {
+            border-left-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        
+        .status-box pre {
+            margin: 10px 0 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ініціалізація бази даних Supabase</h1>
+            <p>Ця сторінка дозволяє створити всі необхідні таблиці в базі даних Supabase</p>
+        </div>
+        
+        <div class="section">
+            <h2>Перевірка підключення</h2>
+            <p>Спочатку перевірте підключення до Supabase</p>
+            <button id="check-connection" class="btn">Перевірити підключення</button>
+            <div id="connection-status" class="status-box">
+                Статус підключення буде відображено тут...
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Створення таблиць</h2>
+            <p>Натисніть кнопку нижче, щоб створити всі необхідні таблиці в базі даних</p>
+            <button id="create-tables" class="btn">Створити таблиці</button>
+            <div id="tables-status" class="status-box">
+                Статус створення таблиць буде відображено тут...
+            </div>
+        </div>
+        
+        <a href="admin.html" class="back-link">← Повернутися до адміністративної панелі</a>
+    </div>
+    
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // Конфігурація Supabase
+        const supabaseUrl = 'https://yvolceamgqrgexrsddvd.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2b2xjZWFtZ3FyZ2V4cnNkZHZkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MjU1NjI3NCwiZXhwIjoyMDU4MTMyMjc0fQ.ybaimJL0vs6JOJ8m7DmWL_KS2WOuK5Vg6ZCihv6vVTE';
+
+        // Створення клієнта Supabase
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // SQL для створення таблиці лідів
+        const createLeadsTableSQL = `
+        CREATE TABLE IF NOT EXISTS leads (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          type TEXT NOT NULL,
+          bank_name TEXT,
+          company TEXT,
+          phone TEXT,
+          portfolio TEXT,
+          region TEXT,
+          tech_stack TEXT,
+          consent BOOLEAN DEFAULT true,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );
+
+        -- Додаємо Row Level Security (RLS)
+        ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+
+        -- Створюємо політику для вставки (будь-хто може додавати ліди)
+        CREATE POLICY IF NOT EXISTS "Anyone can insert leads" ON leads
+          FOR INSERT WITH CHECK (true);
+
+        -- Створюємо політику для читання (тільки авторизовані користувачі можуть читати)
+        CREATE POLICY IF NOT EXISTS "Authenticated users can read leads" ON leads
+          FOR SELECT USING (auth.role() = 'authenticated');
+        `;
+
+        // SQL для створення таблиці контактів
+        const createContactsTableSQL = `
+        CREATE TABLE IF NOT EXISTS contacts (
+          id SERIAL PRIMARY KEY,
+          name TEXT NOT NULL,
+          email TEXT NOT NULL,
+          type TEXT NOT NULL,
+          message TEXT,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );
+
+        -- Додаємо Row Level Security (RLS)
+        ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
+
+        -- Створюємо політику для вставки (будь-хто може додавати контакти)
+        CREATE POLICY IF NOT EXISTS "Anyone can insert contacts" ON contacts
+          FOR INSERT WITH CHECK (true);
+
+        -- Створюємо політику для читання (тільки авторизовані користувачі можуть читати)
+        CREATE POLICY IF NOT EXISTS "Authenticated users can read contacts" ON contacts
+          FOR SELECT USING (auth.role() = 'authenticated');
+        `;
+
+        // SQL для створення таблиці підписок
+        const createSubscriptionsTableSQL = `
+        CREATE TABLE IF NOT EXISTS subscriptions (
+          id SERIAL PRIMARY KEY,
+          email TEXT NOT NULL UNIQUE,
+          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+        );
+
+        -- Додаємо Row Level Security (RLS)
+        ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
+
+        -- Створюємо політику для вставки (будь-хто може підписатися)
+        CREATE POLICY IF NOT EXISTS "Anyone can insert subscriptions" ON subscriptions
+          FOR INSERT WITH CHECK (true);
+
+        -- Створюємо політику для читання (тільки авторизовані користувачі можуть читати)
+        CREATE POLICY IF NOT EXISTS "Authenticated users can read subscriptions" ON subscriptions
+          FOR SELECT USING (auth.role() = 'authenticated');
+        `;
+
+        // Функція для виконання SQL запиту
+        async function executeSQL(sql) {
+            try {
+                console.log('Виконання SQL запиту...');
+                // Використовуємо API Supabase для створення таблиць
+                
+                // Спочатку спробуємо створити таблицю через API
+                const { data, error } = await supabase
+                    .from('leads')
+                    .select('id')
+                    .limit(1);
+                
+                if (error && error.code === '42P01') {
+                    // Таблиця не існує, спробуємо створити її
+                    console.log('Таблиця не існує, створюємо...');
+                    
+                    // Використовуємо метод createTable з API
+                    const response = await fetch(`${supabaseUrl}/rest/v1/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${supabaseKey}`,
+                            'apikey': supabaseKey,
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({
+                            query: sql
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const responseError = await response.json();
+                        console.error('Помилка при виконанні SQL:', responseError);
+                        return { success: false, error: responseError };
+                    }
+                    
+                    console.log('SQL запит успішно виконано');
+                    return { success: true };
+                } else if (error) {
+                    console.error('Помилка при перевірці таблиці:', error);
+                    return { success: false, error };
+                } else {
+                    console.log('Таблиця вже існує');
+                    return { success: true };
+                }
+            } catch (error) {
+                console.error('Виняток при виконанні SQL:', error);
+                return { success: false, error };
+            }
+        }
+
+        // Перевірка підключення до Supabase
+        document.getElementById('check-connection').addEventListener('click', async () => {
+            const statusBox = document.getElementById('connection-status');
+            statusBox.innerHTML = 'Перевірка підключення...';
+            statusBox.className = 'status-box';
+            
+            try {
+                const { data, error } = await supabase.from('_prisma_migrations').select('*').limit(1);
+                
+                if (error && error.code === '42P01') {
+                    // Таблиця не існує, але підключення працює
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Підключення до Supabase успішне!';
+                } else if (error) {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка підключення до Supabase: ${error.message}`;
+                    statusBox.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                } else {
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Підключення до Supabase успішне!';
+                }
+            } catch (error) {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Виняток при перевірці підключення: ${error.message}`;
+                statusBox.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+            }
+        });
+
+        // Створення таблиць
+        document.getElementById('create-tables').addEventListener('click', async () => {
+            const statusBox = document.getElementById('tables-status');
+            statusBox.innerHTML = 'Створення таблиць...';
+            statusBox.className = 'status-box';
+            
+            try {
+                // Створення таблиці leads
+                statusBox.innerHTML = 'Створення таблиці leads...';
+                const leadsResult = await executeSQL(createLeadsTableSQL);
+                
+                if (!leadsResult.success) {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка при створенні таблиці leads: ${leadsResult.error.message}`;
+                    statusBox.innerHTML += `<pre>${JSON.stringify(leadsResult.error, null, 2)}</pre>`;
+                    return;
+                }
+                
+                // Створення таблиці contacts
+                statusBox.innerHTML = 'Створення таблиці contacts...';
+                const contactsResult = await executeSQL(createContactsTableSQL);
+                
+                if (!contactsResult.success) {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка при створенні таблиці contacts: ${contactsResult.error.message}`;
+                    statusBox.innerHTML += `<pre>${JSON.stringify(contactsResult.error, null, 2)}</pre>`;
+                    return;
+                }
+                
+                // Створення таблиці subscriptions
+                statusBox.innerHTML = 'Створення таблиці subscriptions...';
+                const subscriptionsResult = await executeSQL(createSubscriptionsTableSQL);
+                
+                if (!subscriptionsResult.success) {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка при створенні таблиці subscriptions: ${subscriptionsResult.error.message}`;
+                    statusBox.innerHTML += `<pre>${JSON.stringify(subscriptionsResult.error, null, 2)}</pre>`;
+                    return;
+                }
+                
+                // Всі таблиці успішно створені
+                statusBox.className = 'status-box success';
+                statusBox.innerHTML = 'Всі таблиці успішно створені!';
+            } catch (error) {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Виняток при створенні таблиць: ${error.message}`;
+                statusBox.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+            }
+        });
+
+        // Автоматична перевірка підключення при завантаженні сторінки
+        window.addEventListener('DOMContentLoaded', async () => {
+            const statusBox = document.getElementById('connection-status');
+            
+            try {
+                const { data, error } = await supabase.from('_prisma_migrations').select('*').limit(1);
+                
+                if (error && error.code === '42P01') {
+                    // Таблиця не існує, але підключення працює
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Підключення до Supabase успішне!';
+                } else if (error) {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка підключення до Supabase: ${error.message}`;
+                } else {
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Підключення до Supabase успішне!';
+                }
+            } catch (error) {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Виняток при перевірці підключення: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

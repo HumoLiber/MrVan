@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xBank Design Library</title>
+    <style>
+        /* Базові стилі */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px;
+            background: linear-gradient(to right, #a29aff, #6c63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: 24px;
+            margin: 30px 0 20px;
+            color: #a29aff;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .elements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .element-card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .element-preview {
+            width: 100%;
+            height: 180px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .element-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+        
+        .element-desc {
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            padding: 12px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #e0e0e0;
+            overflow-x: auto;
+            margin-top: auto;
+        }
+        
+        .code-block::-webkit-scrollbar {
+            height: 5px;
+        }
+        
+        .code-block::-webkit-scrollbar-thumb {
+            background-color: #444;
+            border-radius: 5px;
+        }
+        
+        /* Grid styles */
+        .grid-style-1 {
+            background-image: linear-gradient(rgba(50, 50, 50, 0.5) 1px, transparent 1px), 
+                             linear-gradient(90deg, rgba(50, 50, 50, 0.5) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .grid-style-2 {
+            background-image: linear-gradient(rgba(60, 60, 200, 0.2) 1px, transparent 1px), 
+                             linear-gradient(90deg, rgba(60, 60, 200, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-color: #0a0a20;
+        }
+        
+        .grid-style-3 {
+            background-image: radial-gradient(circle, #333 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .grid-style-4 {
+            background-image: 
+                linear-gradient(to right, rgba(100, 100, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(100, 100, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-color: #050510;
+        }
+        
+        /* Shadow styles */
+        .shadow-style-1 {
+            background: radial-gradient(ellipse at center, rgba(100, 100, 255, 0.3) 0%, transparent 70%);
+        }
+        
+        .shadow-style-2 {
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+        }
+        
+        .shadow-style-3 {
+            background: radial-gradient(ellipse at center, rgba(255, 50, 50, 0.2) 0%, transparent 70%);
+        }
+        
+        .shadow-style-4 {
+            background: conic-gradient(from 180deg at 50% 50%, rgba(50, 200, 255, 0.15), rgba(100, 50, 255, 0.15), rgba(255, 50, 150, 0.15), rgba(50, 200, 255, 0.15));
+        }
+        
+        /* Glow effects */
+        .glow-style-1 {
+            background: #1a1a1a;
+            box-shadow: 0 0 30px rgba(100, 100, 255, 0.5);
+        }
+        
+        .glow-style-2 {
+            background: #1a1a1a;
+            box-shadow: 0 0 30px rgba(255, 100, 100, 0.5);
+        }
+        
+        .glow-style-3 {
+            background: #1a1a1a;
+            box-shadow: 0 0 15px rgba(100, 255, 100, 0.5), 0 0 30px rgba(100, 255, 100, 0.3);
+        }
+        
+        .glow-style-4 {
+            position: relative;
+            background: #1a1a1a;
+        }
+        
+        .glow-style-4:after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff5f6d, #ffc371, #2affba, #4e64ff);
+            z-index: -1;
+            animation: glowAnimation 10s infinite alternate;
+        }
+        
+        @keyframes glowAnimation {
+            0% {
+                filter: blur(10px);
+                opacity: 0.5;
+            }
+            50% {
+                filter: blur(15px);
+                opacity: 0.8;
+            }
+            100% {
+                filter: blur(10px);
+                opacity: 0.5;
+            }
+        }
+        
+        /* Button styles */
+        .button-style-1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .button-style-2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #4e64ff, #6c63ff);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(107, 99, 255, 0.4);
+        }
+        
+        .button-style-3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 13px 28px;
+            border-radius: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .button-style-4 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #222;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #6c63ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>xBank Design Library</h1>
+        
+        <!-- Grid Patterns Section -->
+        <section class="section">
+            <h2>Сітки (Grid Patterns)</h2>
+            <div class="elements-grid">
+                <div class="element-card">
+                    <div class="element-preview grid-style-1"></div>
+                    <h3 class="element-title">Стандартна сітка</h3>
+                    <p class="element-desc">Класична сітка для основного фону.</p>
+                    <div class="code-block">
+                        background-image: linear-gradient(rgba(50, 50, 50, 0.5) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(50, 50, 50, 0.5) 1px, transparent 1px);
+                        background-size: 20px 20px;
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview grid-style-2"></div>
+                    <h3 class="element-title">Синя сітка</h3>
+                    <p class="element-desc">Сітка з синім відтінком для технологічних інтерфейсів.</p>
+                    <div class="code-block">
+                        background-image: linear-gradient(rgba(60, 60, 200, 0.2) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(60, 60, 200, 0.2) 1px, transparent 1px);
+                        background-size: 40px 40px;
+                        background-color: #0a0a20;
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview grid-style-3"></div>
+                    <h3 class="element-title">Точкова сітка</h3>
+                    <p class="element-desc">Точковий патерн для більш сучасного вигляду.</p>
+                    <div class="code-block">
+                        background-image: radial-gradient(circle, #333 1px, transparent 1px);
+                        background-size: 20px 20px;
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview grid-style-4"></div>
+                    <h3 class="element-title">Широка сітка</h3>
+                    <p class="element-desc">Широка сітка з більшими клітинками.</p>
+                    <div class="code-block">
+                        background-image: 
+                        linear-gradient(to right, rgba(100, 100, 255, 0.1) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(100, 100, 255, 0.1) 1px, transparent 1px);
+                        background-size: 50px 50px;
+                        background-color: #050510;
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Shadows Section -->
+        <section class="section">
+            <h2>Тіні (Shadows)</h2>
+            <div class="elements-grid">
+                <div class="element-card">
+                    <div class="element-preview shadow-style-1"></div>
+                    <h3 class="element-title">Синя тінь</h3>
+                    <p class="element-desc">Радіальний градієнт з ефектом синьої тіні.</p>
+                    <div class="code-block">
+                        background: radial-gradient(ellipse at center, rgba(100, 100, 255, 0.3) 0%, transparent 70%);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview shadow-style-2"></div>
+                    <h3 class="element-title">Затемнення знизу</h3>
+                    <p class="element-desc">Лінійний градієнт з ефектом затемнення знизу.</p>
+                    <div class="code-block">
+                        background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview shadow-style-3"></div>
+                    <h3 class="element-title">Червона тінь</h3>
+                    <p class="element-desc">Радіальний градієнт з ефектом червоної тіні.</p>
+                    <div class="code-block">
+                        background: radial-gradient(ellipse at center, rgba(255, 50, 50, 0.2) 0%, transparent 70%);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview shadow-style-4"></div>
+                    <h3 class="element-title">Різнокольорова тінь</h3>
+                    <p class="element-desc">Конічний градієнт з різнокольоровим ефектом.</p>
+                    <div class="code-block">
+                        background: conic-gradient(from 180deg at 50% 50%, rgba(50, 200, 255, 0.15), rgba(100, 50, 255, 0.15), rgba(255, 50, 150, 0.15), rgba(50, 200, 255, 0.15));
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Glow Effects Section -->
+        <section class="section">
+            <h2>Ефекти світіння (Glow Effects)</h2>
+            <div class="elements-grid">
+                <div class="element-card">
+                    <div class="element-preview glow-style-1"></div>
+                    <h3 class="element-title">Синє світіння</h3>
+                    <p class="element-desc">Ефект синього світіння навколо елемента.</p>
+                    <div class="code-block">
+                        box-shadow: 0 0 30px rgba(100, 100, 255, 0.5);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview glow-style-2"></div>
+                    <h3 class="element-title">Червоне світіння</h3>
+                    <p class="element-desc">Ефект червоного світіння навколо елемента.</p>
+                    <div class="code-block">
+                        box-shadow: 0 0 30px rgba(255, 100, 100, 0.5);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview glow-style-3"></div>
+                    <h3 class="element-title">Подвійне зелене світіння</h3>
+                    <p class="element-desc">Подвійний ефект зеленого світіння.</p>
+                    <div class="code-block">
+                        box-shadow: 0 0 15px rgba(100, 255, 100, 0.5), 0 0 30px rgba(100, 255, 100, 0.3);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview glow-style-4"></div>
+                    <h3 class="element-title">Анімоване світіння</h3>
+                    <p class="element-desc">Анімований ефект райдужного світіння.</p>
+                    <div class="code-block">
+                        position: relative;
+                        /* Додатковий код для анімації в CSS */
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Buttons Section -->
+        <section class="section">
+            <h2>Кнопки (Buttons)</h2>
+            <div class="elements-grid">
+                <div class="element-card">
+                    <div class="element-preview">
+                        <div class="button-style-1">Get Access</div>
+                    </div>
+                    <h3 class="element-title">Стандартна кнопка</h3>
+                    <p class="element-desc">Біла кнопка з округленими кутами.</p>
+                    <div class="code-block">
+                        background-color: #fff;
+                        color: #000;
+                        padding: 15px 30px;
+                        border-radius: 50px;
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview">
+                        <div class="button-style-2">Get Access</div>
+                    </div>
+                    <h3 class="element-title">Градієнтна кнопка</h3>
+                    <p class="element-desc">Кнопка з градієнтним фоном.</p>
+                    <div class="code-block">
+                        background: linear-gradient(to right, #4e64ff, #6c63ff);
+                        color: white;
+                        padding: 15px 30px;
+                        border-radius: 8px;
+                        box-shadow: 0 5px 15px rgba(107, 99, 255, 0.4);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview">
+                        <div class="button-style-3">Get Access</div>
+                    </div>
+                    <h3 class="element-title">Обведена кнопка</h3>
+                    <p class="element-desc">Прозора кнопка з білою обводкою.</p>
+                    <div class="code-block">
+                        background-color: transparent;
+                        color: white;
+                        padding: 13px 28px;
+                        border-radius: 5px;
+                        border: 2px solid rgba(255, 255, 255, 0.5);
+                    </div>
+                </div>
+                
+                <div class="element-card">
+                    <div class="element-preview">
+                        <div class="button-style-4">Get Access</div>
+                    </div>
+                    <h3 class="element-title">Кнопка з акцентом</h3>
+                    <p class="element-desc">Темна кнопка з кольоровим акцентом зліва.</p>
+                    <div class="code-block">
+                        background-color: #222;
+                        color: #fff;
+                        padding: 15px 30px;
+                        border-radius: 5px;
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                        border-left: 3px solid #6c63ff;
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html> 

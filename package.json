@@ -1,0 +1,17 @@
+{
+  "name": "primaveravan.mistervan.es",
+  "version": "1.0.0",
+  "description": "Це лендинг сторінка для проекту Primaveravan - сервісу оренди кемперванів для подорожей та фестивалів.",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "dev": "python3 -m http.server 8000",
+    "preview": "python3 -m http.server 9000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HumoLiber/primaveravan.mistervan.es.git"
+  },
+  "author": "HUMO LIBER",
+  "license": "ISC"
+}

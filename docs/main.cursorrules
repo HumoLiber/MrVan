@@ -1,0 +1,83 @@
+{
+  "files": {
+    "project-requirements.md": {
+      "description": "Project Requirements Document (PRD) – загальний опис цілей, scope, core features, tech stack.",
+      "category": "documentation",
+      "tags": ["requirements", "high-level"]
+    },
+    "app-flow.md": {
+      "description": "App Flow Document – покроковий опис користувацького шляху, включаючи Landing Page, Dashboard, Upload.",
+      "category": "documentation",
+      "tags": ["ux", "workflow"]
+    },
+    "tech-stack.md": {
+      "description": "Tech Stack Document – всі деталі про фреймворки, мови, frontend/backend та деплой.",
+      "category": "documentation",
+      "tags": ["tech", "dependencies"]
+    },
+    "frontend-guidelines.md": {
+      "description": "Frontend Guidelines – принципи дизайну, стилі, палітра кольорів, шрифти, UI-компоненти.",
+      "category": "documentation",
+      "tags": ["design", "ui-ux"]
+    },
+    "backend-structure.md": {
+      "description": "Backend Structure – архітектура, автентифікація, база даних, storage, API endpoints, security.",
+      "category": "documentation",
+      "tags": ["backend", "api", "security"]
+    },
+    "project-status.md": {
+      "description": "Project Status Document – лог виконаних завдань, помилок, поточних робіт і планів.",
+      "category": "documentation",
+      "tags": ["status", "worklog"]
+    },
+    "system-architecture.md": {
+      "description": "System Architecture – діаграми та опис взаємодії всіх компонентів системи.",
+      "category": "documentation",
+      "tags": ["architecture", "diagrams", "system-design"]
+    },
+    "archive/*.md": {
+      "description": "Архів попередніх версій документації.",
+      "category": "documentation",
+      "tags": ["archive", "versioning"]
+    }
+  },
+  "formatting_rules": {
+    "docs/*.md": {
+      "max_line_length": 120,
+      "require_header": true,
+      "required_sections": [
+        "Опис",
+        "Структура",
+        "Вимоги"
+      ]
+    },
+    "docs/archive/*.md": {
+      "max_line_length": 120,
+      "require_header": true,
+      "required_sections": [
+        "Версія",
+        "Дата",
+        "Зміни"
+      ]
+    },
+    "docs/system-architecture.md": {
+      "require_header": true,
+      "required_sections": [
+        "Overview",
+        "Sequence Diagram",
+        "Technical Details",
+        "Changelog"
+      ]
+    }
+  },
+  "code_rules": {
+    "frontend/**/*.{ts,tsx}": {
+      "format": "prettier",
+      "lint": "eslint"
+    },
+    "backend/**/*.py": {
+      "format": "black",
+      "lint": "flake8"
+    }
+  }
+}

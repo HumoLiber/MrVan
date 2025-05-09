@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title">PrimaveraVan Festival - MisterVan</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* PrimaveraVan specific styles */
+        :root {
+            --primary-color: #00a0b6; /* MisterVan brand color */
+            --secondary-color: #F98B3B; /* Festival vibrant color */
+            --accent-color: #4C5253; /* Brand neutral */
+            --light-bg: #F3F6F6;
+            --white: #FFFFFF;
+            --text-color: #101218;
+            --text-light: #4B4F58;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-left: auto;
+        }
+        
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .language-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 120px;
+            display: none;
+            z-index: 10;
+        }
+        
+        .language-menu.show {
+            display: block;
+        }
+        
+        .language-option {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .language-option:hover {
+            background-color: var(--light-bg);
+        }
+        
+        .language-option.active {
+            background-color: rgba(0, 160, 182, 0.1);
+            color: var(--primary-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/festival-hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            color: var(--white);
+            margin-top: 70px;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            transform: translateY(-3px);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-3px);
+        }
+        
+        /* Section styles */
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Promotion Cards */
+        .promotions {
+            background-color: var(--light-bg);
+        }
+        
+        .promotions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .promotion-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            flex: 1 1 calc(50% - 2rem);
+            max-width: 550px;
+            transition: transform 0.3s;
+        }
+        
+        .promotion-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .promotion-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .promotion-content {
+            padding: 2rem;
+        }
+        
+        .promotion-badge {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .promotion-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        /* Steps */
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-left: 2.5rem;
+            position: relative;
+        }
+        
+        .step:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Prize section */
+        .prize-section {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .prize-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .prize-description {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .prize-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .prize-feature {
+            text-align: center;
+        }
+        
+        .prize-feature-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .prize-feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Form Section */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 160, 182, 0.1);
+        }
+        
+        .form-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+        
+        .form-check-label {
+            font-size: 0.9rem;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+        
+        /* Social Media Section */
+        .social-media {
+            text-align: center;
+            padding: 3rem 0;
+            background-color: var(--light-bg);
+        }
+        
+        .social-media-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .instagram-handle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--text-color);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .promotions-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .promotion-card {
+                flex: 1 1 100%;
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .promotion-card {
+                max-width: 100%;
+            }
+            
+            .prize-features {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            .hero {
+                height: 60vh;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Success message styling */
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .success-message h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="/" class="logo-container">
+                <img src="images/mistervan-logo.png" alt="MisterVan Logo" class="logo">
+            </a>
+            
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <button id="language-btn" class="language-btn">
+                    <span class="lang-icon">🇬🇧</span>
+                    <span class="lang-text">English</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div id="language-menu" class="language-menu">
+                    <div class="language-option active" data-lang="en">
+                        <span class="lang-icon">🇬🇧</span>
+                        <span class="lang-text">English</span>
+                    </div>
+                    <div class="language-option" data-lang="es">
+                        <span class="lang-icon">🇪🇸</span>
+                        <span class="lang-text">Español</span>
+                    </div>
+                    <div class="language-option" data-lang="ca">
+                        <span class="lang-icon">🏴</span>
+                        <span class="lang-text">Català</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 data-i18n="hero_title">Today FestiVan, tomorrow Mistervan</h1>
+                <p data-i18n="hero_subtitle">Join the unique experience of campers, music and nature at the most anticipated festival of the year</p>
+                <a href="#promotions" class="btn btn-primary" data-i18n="discover_more">Discover More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotions Section -->
+    <section id="promotions" class="promotions">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="promotions_title">Our Special Promotions</h2>
+                <p class="section-subtitle" data-i18n="promotions_subtitle">Take advantage of these exclusive offers during the PrimaveraVan festival</p>
+            </div>
+            
+            <div class="promotions-container">
+                <!-- Promotion Card 1: Instagram follow for a cup -->
+                <div class="promotion-card">
+                    <img src="images/festival-cup.jpg" alt="Festival Cup" class="promotion-image">
+                    <div class="promotion-content">
+                        <span class="promotion-badge" data-i18n="promotion_badge_1">PROMOTION #1</span>
+                        <h3 class="promotion-title" data-i18n="promotion_title_1">Get your festival cup!</h3>
+                        <p data-i18n="promotion_description_1">Follow these simple steps and take home an exclusive PrimaveraVan cup to remember this experience.</p>
+                        
+                        <ul class="steps">
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="cup_step_1_title">Follow us on Instagram</h4>
+                                    <p data-i18n="cup_step_1_desc">Follow our @MisterVan account on Instagram</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="cup_step_2_title">Visit our stand</h4>
+                                    <p data-i18n="cup_step_2_desc">Find us in the central area of the festival</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="cup_step_3_title">Show us you follow us</h4>
+                                    <p data-i18n="cup_step_3_desc">Show us that you follow us on Instagram</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="cup_step_4_title">Pick up your cup</h4>
+                                    <p data-i18n="cup_step_4_desc">And enjoy the festival with your exclusive cup!</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <a href="https://instagram.com/mistervan" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-instagram"></i> 
+                            <span data-i18n="follow_instagram">Follow on Instagram</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Promotion Card 2: Drawing contest -->
+                <div class="promotion-card">
+                    <img src="images/camper-drawing.jpg" alt="Camper Drawing Contest" class="promotion-image">
+                    <div class="promotion-content">
+                        <span class="promotion-badge" data-i18n="promotion_badge_2">PROMOTION #2</span>
+                        <h3 class="promotion-title" data-i18n="promotion_title_2">Draw your ideal camper and win a weekend getaway!</h3>
+                        <p data-i18n="promotion_description_2">Participate in our drawing contest and you could win an amazing weekend in a camper van.</p>
+                        
+                        <ul class="steps">
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="draw_step_1_title">Visit our stand</h4>
+                                    <p data-i18n="draw_step_1_desc">We'll provide all the necessary materials</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="draw_step_2_title">Draw your ideal camper</h4>
+                                    <p data-i18n="draw_step_2_desc">Let your imagination fly and design the camper of your dreams</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="draw_step_3_title">Share it on Instagram</h4>
+                                    <p data-i18n="draw_step_3_desc">Post your drawing with the hashtag #MyIdealCamper</p>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-content">
+                                    <h4 class="step-title" data-i18n="draw_step_4_title">Enter the drawing</h4>
+                                    <p data-i18n="draw_step_4_desc">And you could win a weekend in a camper!</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <div class="prize-section">
+                            <h3 class="prize-title" data-i18n="prize_title">THE PRIZE</h3>
+                            <p class="prize-description" data-i18n="prize_description">Escape for a weekend in a camper van</p>
+                            <p data-i18n="prize_detail">The contest winner will enjoy a full weekend in one of our premium camper vans, fully equipped for an unforgettable adventure.</p>
+                            
+                            <div class="prize-features">
+                                <div class="prize-feature">
+                                    <div class="prize-feature-icon">
+                                        <i class="far fa-calendar-alt"></i>
+                                    </div>
+                                    <h4 class="prize-feature-title" data-i18n="prize_feature_1_title">2 Days and 2 Nights</h4>
+                                    <p data-i18n="prize_feature_1_desc">Enjoy a complete weekend</p>
+                                </div>
+                                <div class="prize-feature">
+                                    <div class="prize-feature-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <h4 class="prize-feature-title" data-i18n="prize_feature_2_title">Destination of Choice</h4>
+                                    <p data-i18n="prize_feature_2_desc">Choose among various available routes</p>
+                                </div>
+                                <div class="prize-feature">
+                                    <div class="prize-feature-icon">
+                                        <i class="fas fa-gift"></i>
+                                    </div>
+                                    <h4 class="prize-feature-title" data-i18n="prize_feature_3_title">Welcome Basket</h4>
+                                    <p data-i18n="prize_feature_3_desc">With local gourmet products</p>
+                                </div>
+                                <div class="prize-feature">
+                                    <div class="prize-feature-icon">
+                                        <i class="fas fa-gas-pump"></i>
+                                    </div>
+                                    <h4 class="prize-feature-title" data-i18n="prize_feature_4_title">Fuel Included</h4>
+                                    <p data-i18n="prize_feature_4_desc">For a 200 km journey</p>
+                                </div>
+                            </div>
+                            
+                            <a href="#contact-form" class="btn btn-primary" data-i18n="want_participate">I want to participate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact-form" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="contact_title">Stay informed!</h2>
+                <p class="section-subtitle" data-i18n="contact_subtitle">Leave us your details to receive all the information about the festival and our promotions.</p>
+            </div>
+            
+            <form class="contact-form" id="primaveravan-form">
+                <div class="form-group">
+                    <label for="name" class="form-label" data-i18n="name">Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label" data-i18n="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="instagram" class="form-label" data-i18n="instagram">Instagram (optional)</label>
+                    <div style="display: flex; align-items: center;">
+                        <span style="padding: 0.75rem; background-color: #f3f4f6; border: 1px solid #ddd; border-right: none; border-radius: 4px 0 0 4px;">@</span>
+                        <input type="text" id="instagram" name="instagram" class="form-control" style="border-radius: 0 4px 4px 0;">
+                    </div>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="privacy" name="privacy" class="form-check-input" required>
+                    <label for="privacy" class="form-check-label" data-i18n="privacy_policy">I agree to receive information about the festival and that my data will be processed according to the privacy policy</label>
+                </div>
+                
+                <button type="submit" class="btn-submit" data-i18n="submit_button">Send information</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Instagram Follow Section -->
+    <section class="social-media">
+        <div class="container">
+            <p data-i18n="follow_reminder">Don't forget to follow us on Instagram to stay updated!</p>
+            <div class="social-media-icon">
+                <i class="fab fa-instagram"></i>
+            </div>
+            <span class="instagram-handle" data-i18n="instagram_handle">@MisterVan</span>
+            <a href="https://instagram.com/mistervan" target="_blank" class="btn btn-outline">
+                <i class="fab fa-instagram"></i> 
+                <span data-i18n="follow_us">Follow us</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <img src="images/mistervan-logo-white.png" alt="MisterVan Logo" height="40">
+            </div>
+            <p class="footer-text" data-i18n="footer_text">PrimaveraVan</p>
+            <p>&copy; 2023 MisterVan. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Translation script -->
+    <script src="translations.js"></script>
+    
+    <!-- Supabase integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        window.PrimaveravanAPI = supabase;
+    </script>
+    <script src="supabase.js"></script>
+    
+    <!-- Language switcher -->
+    <script src="language-switcher.js"></script>
+    
+    <!-- Custom javascript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Supabase connection
+            if (window.PrimaveravanAPI && window.PrimaveravanAPI.initializeDatabase) {
+                window.PrimaveravanAPI.initializeDatabase()
+                    .then(result => {
+                        console.log('Database connection result:', result);
+                    })
+                    .catch(error => {
+                        console.error('Error connecting to database:', error);
+                    });
+            }
+            
+            // Form submission handling
+            const form = document.getElementById('primaveravan-form');
+            
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Collect form data
+                    const formData = new FormData(form);
+                    const formValues = {
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        instagram: formData.get('instagram') ? '@' + formData.get('instagram') : '',
+                        privacy_accepted: formData.get('privacy') ? true : false,
+                        source: 'primaveravan',
+                        created_at: new Date().toISOString()
+                    };
+                    
+                    console.log('Form data:', formValues);
+                    
+                    try {
+                        // Submit to Supabase using the new specialized function
+                        if (window.PrimaveravanAPI && window.PrimaveravanAPI.savePrimaveraVanLead) {
+                            const result = await window.PrimaveravanAPI.savePrimaveraVanLead(formValues);
+                            
+                            if (!result || !result.success) {
+                                console.error('Error submitting form:', result?.error || 'Unknown error');
+                                alert('There was an error submitting the form. Please try again.');
+                                return;
+                            }
+                            
+                            // Show success message
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'success-message';
+                            successMessage.innerHTML = `
+                                <h3 data-i18n="form_success_title">Thank you for your submission!</h3>
+                                <p data-i18n="form_success_message">We'll keep you updated with all the information about the festival and our promotions.</p>
+                            `;
+                            
+                            form.innerHTML = '';
+                            form.appendChild(successMessage);
+                            
+                            // Translate the success message
+                            if (typeof setLanguage === 'function') {
+                                const currentLang = localStorage.getItem('primaveravan-language') || 'en';
+                                setLanguage(currentLang);
+                            }
+                        } else {
+                            // Fallback to the generic saveContactForm function if savePrimaveraVanLead is not available
+                            if (window.PrimaveravanAPI && window.PrimaveravanAPI.saveContactForm) {
+                                const result = await window.PrimaveravanAPI.saveContactForm(formValues);
+                                
+                                if (!result || !result.success) {
+                                    console.error('Error submitting form using fallback method:', result?.error || 'Unknown error');
+                                    alert('There was an error submitting the form. Please try again.');
+                                    return;
+                                }
+                                
+                                // Show success message
+                                const successMessage = document.createElement('div');
+                                successMessage.className = 'success-message';
+                                successMessage.innerHTML = `
+                                    <h3 data-i18n="form_success_title">Thank you for your submission!</h3>
+                                    <p data-i18n="form_success_message">We'll keep you updated with all the information about the festival and our promotions.</p>
+                                `;
+                                
+                                form.innerHTML = '';
+                                form.appendChild(successMessage);
+                                
+                                // Translate the success message
+                                if (typeof setLanguage === 'function') {
+                                    const currentLang = localStorage.getItem('primaveravan-language') || 'en';
+                                    setLanguage(currentLang);
+                                }
+                            } else {
+                                console.warn('Supabase API not found. Data will not be saved.');
+                                alert('Form submission is currently unavailable. Please try again later.');
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error during form submission:', error);
+                        alert('There was an error submitting the form. Please try again.');
+                    }
+                });
+            }
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Account for fixed header
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

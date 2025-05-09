@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primaveravan - Адміністрування бази даних</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .admin-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .admin-btn {
+            padding: 10px 15px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background-color: #0055aa;
+        }
+        
+        .admin-btn.secondary {
+            background-color: #6c757d;
+        }
+        
+        .admin-btn.secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .admin-btn.danger {
+            background-color: #dc3545;
+        }
+        
+        .admin-btn.danger:hover {
+            background-color: #c82333;
+        }
+        
+        .status-box {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #6c757d;
+        }
+        
+        .status-box.success {
+            border-left-color: #28a745;
+            background-color: #d4edda;
+        }
+        
+        .status-box.error {
+            border-left-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        
+        .status-box pre {
+            margin: 10px 0 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/primaveravan-logo-white.png" alt="Primaveravan Logo">
+            </div>
+            <div class="title">
+                <h1>Адміністративна панель</h1>
+                <p>Цей інтерфейс дозволяє керувати базою даних Primaveravan</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h2>Адміністрування бази даних Supabase</h2>
+            <p>Цей інтерфейс дозволяє керувати базою даних xBank</p>
+        </div>
+        
+        <div class="admin-section">
+            <h3>Статус підключення</h3>
+            <p>Перевірте підключення до Supabase</p>
+            <div class="btn-group">
+                <button id="check-connection" class="admin-btn">Перевірити підключення</button>
+            </div>
+            <div id="connection-status" class="status-box">
+                Статус підключення буде відображено тут...
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h3>Ініціалізація бази даних</h3>
+            <p>Створення необхідних таблиць у базі даних</p>
+            <div class="btn-group">
+                <button id="init-database" class="admin-btn">Ініціалізувати базу даних</button>
+                <a href="db_init.html" class="admin-btn">Сторінка створення таблиць</a>
+            </div>
+            <div id="init-status" class="status-box">
+                Статус ініціалізації буде відображено тут...
+            </div>
+        </div>
+        
+        <div class="admin-section">
+            <h3>Перегляд даних</h3>
+            <p>Перегляд збережених даних у таблицях</p>
+            
+            <div class="btn-group">
+                <button id="view-leads" class="admin-btn">Переглянути ліди</button>
+                <button id="view-contacts" class="admin-btn">Переглянути контакти</button>
+                <button id="view-subscriptions" class="admin-btn">Переглянути підписки</button>
+            </div>
+            
+            <div id="data-view" class="status-box">
+                Дані будуть відображені тут...
+            </div>
+        </div>
+        
+        <a href="index.html" class="back-link">← Повернутися на головну сторінку</a>
+    </div>
+
+    <!-- Підключення Supabase -->
+    <script type="module">
+        import { 
+            supabase, 
+            initializeTables, 
+            getAllLeads 
+        } from './supabase.js';
+        import { 
+            initializeDatabase, 
+            createAllTables, 
+            checkSupabaseConnection 
+        } from './db_setup.js';
+        
+        // Перевірка підключення
+        document.getElementById('check-connection').addEventListener('click', async () => {
+            const statusBox = document.getElementById('connection-status');
+            statusBox.innerHTML = 'Перевірка підключення...';
+            statusBox.className = 'status-box';
+            
+            try {
+                const result = await checkSupabaseConnection();
+                
+                if (result.connected) {
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Підключення успішне! Supabase доступний.';
+                } else {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = `Помилка підключення до Supabase: ${result.error.message}`;
+                    statusBox.innerHTML += `<pre>${JSON.stringify(result.error, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Виняток при перевірці підключення: ${error.message}`;
+                statusBox.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+            }
+        });
+        
+        // Ініціалізація бази даних
+        document.getElementById('init-database').addEventListener('click', async () => {
+            const statusBox = document.getElementById('init-status');
+            statusBox.innerHTML = 'Ініціалізація бази даних...';
+            statusBox.className = 'status-box';
+            
+            try {
+                // Спочатку перевіряємо існуючі таблиці
+                const tablesCheck = await initializeTables();
+                console.log('Перевірка таблиць:', tablesCheck);
+                
+                if (tablesCheck.contacts.exists && tablesCheck.subscriptions.exists) {
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'Таблиці вже існують. База даних готова до використання.';
+                    return;
+                }
+                
+                // Якщо таблиці не існують, пробуємо їх створити
+                statusBox.innerHTML = 'Таблиці не знайдено. Спроба створення...';
+                
+                // Примітка: ця функція вимагає service_role ключа
+                const result = await initializeDatabase();
+                
+                if (result.success) {
+                    statusBox.className = 'status-box success';
+                    statusBox.innerHTML = 'База даних успішно ініціалізована!';
+                    statusBox.innerHTML += `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+                } else {
+                    statusBox.className = 'status-box error';
+                    statusBox.innerHTML = 'Помилка при ініціалізації бази даних.';
+                    statusBox.innerHTML += `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+                    
+                    // Додаткова інформація про необхідність service_role ключа
+                    statusBox.innerHTML += `
+                        <p><strong>Примітка:</strong> Для створення таблиць програмно потрібен <code>service_role</code> ключ.</p>
+                        <p>Ви можете створити таблиці вручну через SQL Editor в Supabase Dashboard, використовуючи SQL з файлу SUPABASE_SETUP.md</p>
+                    `;
+                }
+            } catch (error) {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Виняток при ініціалізації бази даних: ${error.message}`;
+                statusBox.innerHTML += `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+            }
+        });
+        
+        // Перегляд контактів
+        document.getElementById('view-contacts').addEventListener('click', async () => {
+            const dataView = document.getElementById('data-view');
+            dataView.innerHTML = 'Завантаження контактів...';
+            dataView.className = 'status-box';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('contacts')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    dataView.className = 'status-box error';
+                    dataView.innerHTML = `Помилка при завантаженні контактів: ${error.message}`;
+                    return;
+                }
+                
+                if (data && data.length > 0) {
+                    dataView.className = 'status-box success';
+                    dataView.innerHTML = `<h4>Знайдено ${data.length} контактів:</h4>`;
+                    
+                    // Створюємо таблицю для відображення даних
+                    let tableHTML = `
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ім'я</th>
+                                    <th>Email</th>
+                                    <th>Тип</th>
+                                    <th>Повідомлення</th>
+                                    <th>Дата створення</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    data.forEach(contact => {
+                        tableHTML += `
+                            <tr>
+                                <td>${contact.id}</td>
+                                <td>${contact.name}</td>
+                                <td>${contact.email}</td>
+                                <td>${contact.type}</td>
+                                <td>${contact.message || '-'}</td>
+                                <td>${new Date(contact.created_at).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    dataView.innerHTML += tableHTML;
+                } else {
+                    dataView.className = 'status-box';
+                    dataView.innerHTML = 'Контактів не знайдено.';
+                }
+            } catch (error) {
+                dataView.className = 'status-box error';
+                dataView.innerHTML = `Виняток при завантаженні контактів: ${error.message}`;
+            }
+        });
+        
+        // Перегляд підписок
+        document.getElementById('view-subscriptions').addEventListener('click', async () => {
+            const dataView = document.getElementById('data-view');
+            dataView.innerHTML = 'Завантаження підписок...';
+            dataView.className = 'status-box';
+            
+            try {
+                const { data, error } = await supabase
+                    .from('subscriptions')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    dataView.className = 'status-box error';
+                    dataView.innerHTML = `Помилка при завантаженні підписок: ${error.message}`;
+                    return;
+                }
+                
+                if (data && data.length > 0) {
+                    dataView.className = 'status-box success';
+                    dataView.innerHTML = `<h4>Знайдено ${data.length} підписок:</h4>`;
+                    
+                    // Створюємо таблицю для відображення даних
+                    let tableHTML = `
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Дата створення</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    data.forEach(subscription => {
+                        tableHTML += `
+                            <tr>
+                                <td>${subscription.id}</td>
+                                <td>${subscription.email}</td>
+                                <td>${new Date(subscription.created_at).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    dataView.innerHTML += tableHTML;
+                } else {
+                    dataView.className = 'status-box';
+                    dataView.innerHTML = 'Підписок не знайдено.';
+                }
+            } catch (error) {
+                dataView.className = 'status-box error';
+                dataView.innerHTML = `Виняток при завантаженні підписок: ${error.message}`;
+            }
+        });
+        
+        // Перегляд лідів
+        document.getElementById('view-leads').addEventListener('click', async () => {
+            const dataView = document.getElementById('data-view');
+            dataView.innerHTML = 'Завантаження лідів...';
+            dataView.className = 'status-box';
+            
+            try {
+                const result = await getAllLeads();
+                
+                if (!result.success) {
+                    dataView.className = 'status-box error';
+                    dataView.innerHTML = `Помилка при завантаженні лідів: ${result.error.message}`;
+                    return;
+                }
+                
+                const data = result.data;
+                
+                if (data && data.length > 0) {
+                    dataView.className = 'status-box success';
+                    dataView.innerHTML = `<h4>Знайдено ${data.length} лідів:</h4>`;
+                    
+                    // Створюємо таблицю для відображення даних
+                    let tableHTML = `
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ім'я</th>
+                                    <th>Email</th>
+                                    <th>Тип</th>
+                                    <th>Банк</th>
+                                    <th>Компанія</th>
+                                    <th>Телефон</th>
+                                    <th>Регіон</th>
+                                    <th>Дата створення</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+                    
+                    data.forEach(lead => {
+                        tableHTML += `
+                            <tr>
+                                <td>${lead.id}</td>
+                                <td>${lead.name}</td>
+                                <td>${lead.email}</td>
+                                <td>${lead.type}</td>
+                                <td>${lead.bank_name || '-'}</td>
+                                <td>${lead.company || '-'}</td>
+                                <td>${lead.phone || '-'}</td>
+                                <td>${lead.region || '-'}</td>
+                                <td>${new Date(lead.created_at).toLocaleString()}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    tableHTML += `
+                            </tbody>
+                        </table>
+                    `;
+                    
+                    dataView.innerHTML += tableHTML;
+                } else {
+                    dataView.className = 'status-box';
+                    dataView.innerHTML = 'Лідів не знайдено.';
+                }
+            } catch (error) {
+                dataView.className = 'status-box error';
+                dataView.innerHTML = `Виняток при завантаженні лідів: ${error.message}`;
+            }
+        });
+        
+        // Автоматична перевірка підключення при завантаженні сторінки
+        window.addEventListener('DOMContentLoaded', async () => {
+            const result = await checkSupabaseConnection();
+            const statusBox = document.getElementById('connection-status');
+            
+            if (result.connected) {
+                statusBox.className = 'status-box success';
+                statusBox.innerHTML = 'Підключення успішне! Supabase доступний.';
+            } else {
+                statusBox.className = 'status-box error';
+                statusBox.innerHTML = `Помилка підключення до Supabase: ${result.error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

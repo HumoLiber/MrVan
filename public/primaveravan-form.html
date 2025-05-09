@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrimaveraVan Festival - Registro</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #4db6ac;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+    p {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #666;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #4db6ac;
+      box-shadow: 0 0 0 2px rgba(77, 182, 172, 0.2);
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 20px;
+    }
+    .checkbox-group input {
+      width: auto;
+      margin-right: 10px;
+      margin-top: 4px;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      font-size: 14px;
+      color: #666;
+    }
+    button {
+      background-color: #4db6ac;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #3b9c90;
+    }
+    .instagram-field {
+      display: flex;
+      align-items: center;
+    }
+    .instagram-field span {
+      background-color: #f5f5f5;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-right: none;
+      border-radius: 6px 0 0 6px;
+      color: #666;
+    }
+    .instagram-field input {
+      border-radius: 0 6px 6px 0;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      display: none;
+    }
+    .success {
+      border: 1px solid #4caf50;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    .error {
+      border: 1px solid #f44336;
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    .loading {
+      text-align: center;
+      margin-top: 20px;
+      display: none;
+    }
+    .loading-spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4db6ac;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-pulse {
+      animation: pulse 1.5s ease-out infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container animate-fade-in">
+    <h1>¡Stay informed!</h1>
+    <p>Leave us your details to receive all the information about the festival and our promotions.</p>
+    
+    <form id="primaveravanForm">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="postal_code">Postal Code</label>
+        <input type="text" id="postal_code" name="postal_code" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="camper_model">Camper Model</label>
+        <input type="text" id="camper_model" name="camper_model" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="year">Year</label>
+        <select id="year" name="year" required>
+          <option value="">Select year</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+          <option value="older">Older</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="places">Places</label>
+        <select id="places" name="places" required>
+          <option value="">Select number of places</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6+">6+</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="instagram">Instagram (optional)</label>
+        <div class="instagram-field">
+          <span>@</span>
+          <input type="text" id="instagram" name="instagram">
+        </div>
+      </div>
+      
+      <div class="checkbox-group">
+        <input type="checkbox" id="privacy_accepted" name="privacy_accepted" required>
+        <label for="privacy_accepted">I agree to receive information about the festival and that my data will be processed according to the privacy policy</label>
+      </div>
+      
+      <button type="submit" class="animate-pulse">Send information</button>
+    </form>
+    
+    <div id="loading" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Processing your request...</p>
+    </div>
+    
+    <div id="result" class="result"></div>
+  </div>
+  
+  <!-- Підключаємо Supabase JS через CDN -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <!-- Підключаємо наш API файл -->
+  <script src="/public/supabase.js"></script>
+  
+  <script>
+    // Функція для показу індикатора завантаження
+    function showLoading() {
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+    }
+    
+    // Функція для приховування індикатора завантаження
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+    }
+    
+    // Функція для показу повідомлення про успіх
+    function showSuccess(message) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = message;
+      resultDiv.className = 'result success';
+      resultDiv.style.display = 'block';
+    }
+    
+    // Функція для показу повідомлення про помилку
+    function showError(message) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = message;
+      resultDiv.className = 'result error';
+      resultDiv.style.display = 'block';
+    }
+    
+    // Ініціалізація форми після завантаження сторінки
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        // Перевіряємо, чи завантажено Supabase
+        if (typeof window.PrimaveravanAPI === 'undefined') {
+          console.log('Очікуємо ініціалізації PrimaveravanAPI...');
+          
+          // Чекаємо, поки PrimaveravanAPI стане доступним (максимум 5 секунд)
+          let attempts = 0;
+          const maxAttempts = 50; // 5 секунд з інтервалом 100 мс
+          
+          const waitForAPI = setInterval(() => {
+            attempts++;
+            
+            if (typeof window.PrimaveravanAPI !== 'undefined') {
+              clearInterval(waitForAPI);
+              console.log('PrimaveravanAPI успішно ініціалізовано');
+              setupFormHandler();
+            } else if (attempts >= maxAttempts) {
+              clearInterval(waitForAPI);
+              console.error('Не вдалося ініціалізувати PrimaveravanAPI');
+              showError('<strong>Error:</strong> Could not connect to the database. Please try again later.');
+            }
+          }, 100);
+        } else {
+          setupFormHandler();
+        }
+      } catch (error) {
+        console.error('Помилка при ініціалізації форми:', error);
+        showError('<strong>Error:</strong> Could not initialize the form. Please try again later.');
+      }
+    });
+    
+    // Налаштування обробника форми
+    function setupFormHandler() {
+      document.getElementById('primaveravanForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Показуємо індикатор завантаження
+        showLoading();
+        
+        try {
+          // Збираємо дані форми
+          const formData = {
+            name: document.getElementById('name').value,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            postal_code: document.getElementById('postal_code').value,
+            camper_model: document.getElementById('camper_model').value,
+            year: document.getElementById('year').value,
+            places: document.getElementById('places').value,
+            instagram: document.getElementById('instagram').value,
+            privacy_accepted: document.getElementById('privacy_accepted').checked,
+            source: 'primaveravan',
+            created_at: new Date().toISOString()
+          };
+          
+          console.log('Відправляємо дані:', formData);
+          
+          // Відправляємо дані через API
+          const result = await window.PrimaveravanAPI.savePrimaveraVanLead(formData);
+          
+          // Приховуємо індикатор завантаження
+          hideLoading();
+          
+          if (result.success) {
+            // Успішне збереження
+            showSuccess('<strong>¡Success!</strong><br>Thank you for your registration. We will contact you soon with more information about the festival.');
+            
+            // Очищаємо форму
+            document.getElementById('primaveravanForm').reset();
+          } else {
+            // Помилка збереження
+            throw new Error(result.error?.message || 'Unknown error');
+          }
+        } catch (error) {
+          // Приховуємо індикатор завантаження
+          hideLoading();
+          
+          console.error('Error saving data:', error);
+          showError(`<strong>Error:</strong><br>${error.message || 'An error occurred while saving your data. Please try again later.'}`);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

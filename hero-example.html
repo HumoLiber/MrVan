@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xBank Hero Section</title>
+    <style>
+        /* Базові стилі для всієї сторінки */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        /* Стилі для hero секції */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 100px 50px;
+        }
+        
+        /* Шар 1: Сітка (grid) на фоні */
+        .grid-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(20, 20, 20, 0.8) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(20, 20, 20, 0.8) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 1;
+        }
+        
+        /* Шар 2: Тінь (для глибини) */
+        .shadow-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+            z-index: 2;
+        }
+        
+        /* Шар 3: Контейнер для контенту */
+        .content-container {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+        }
+        
+        /* Шар 4: Текстовий блок */
+        .text-layer {
+            max-width: 500px;
+            margin-right: 50px;
+        }
+        
+        .text-layer h1 {
+            font-size: 54px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .text-layer h2 {
+            font-size: 24px;
+            color: #a29aff;
+            margin-bottom: 20px;
+        }
+        
+        .text-layer p {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+        
+        /* Шар 5: Кнопка */
+        .button-layer {
+            margin-top: 30px;
+        }
+        
+        .button-layer .btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #000;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 14px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .button-layer .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Шар 6: Ілюстрація */
+        .illustration-layer {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+        
+        .bank-image {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            z-index: 3;
+        }
+        
+        /* Ефект світіння навколо ілюстрації */
+        .glow-effect {
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(ellipse at center, rgba(100, 100, 255, 0.2) 0%, transparent 70%);
+            z-index: 2;
+            top: -10%;
+            left: -10%;
+        }
+        
+        /* Адаптивність для мобільних пристроїв */
+        @media (max-width: 992px) {
+            .content-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .text-layer {
+                margin-right: 0;
+                margin-bottom: 50px;
+            }
+            
+            .illustration-layer {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <!-- Шар 1: Сітка на фоні -->
+        <div class="grid-layer"></div>
+        
+        <!-- Шар 2: Тінь для глибини -->
+        <div class="shadow-layer"></div>
+        
+        <!-- Шар 3: Контейнер для контенту -->
+        <div class="content-container">
+            <!-- Шар 4: Текстовий блок -->
+            <div class="text-layer">
+                <h1>Banking Of The<br>New Generation</h1>
+                <h2>We mean REALLY THE NEW!</h2>
+                <p>xBank is a modern online bank created for those who value innovative solutions and want to have complete control over their finances with a single touch.</p>
+                
+                <!-- Шар 5: Кнопка -->
+                <div class="button-layer">
+                    <a href="#" class="btn">Get Access</a>
+                </div>
+            </div>
+            
+            <!-- Шар 6: Ілюстрація -->
+            <div class="illustration-layer">
+                <div class="glow-effect"></div>
+                <!-- Тут має бути зображення, що є на вашому дизайні -->
+                <img src="/images/bank.png" alt="Bank Illustration" class="bank-image">
+            </div>
+        </div>
+    </section>
+</body>
+</html> 

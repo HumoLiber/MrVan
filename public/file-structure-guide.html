@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xBank - Стандартизована структура файлів</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        header img {
+            height: 40px;
+            margin-right: 20px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #a29aff, #6c63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: 24px;
+            margin: 30px 0 15px;
+            color: #a29aff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 20px;
+            margin: 20px 0 10px;
+            color: #e0e0e0;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .section {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        code {
+            font-family: monospace;
+            background-color: #2a2a2a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #a29aff;
+        }
+        
+        pre {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .file-structure {
+            font-family: monospace;
+            line-height: 1.5;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .file-structure .dir {
+            color: #6c63ff;
+        }
+        
+        .file-structure .file {
+            color: #e0e0e0;
+        }
+        
+        .file-structure .indent {
+            padding-left: 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .card p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .card img {
+            width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .tips {
+            background-color: #1a4060;
+            border-left: 4px solid #4e9fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning {
+            background-color: #604c1a;
+            border-left: 4px solid #ffce4e;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        th {
+            background-color: #2a2a2a;
+            color: #a29aff;
+        }
+        
+        tr:hover {
+            background-color: #1a1a1a;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: #2a2a2a;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #3a3a3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="/images/cleaned/ui/logo.svg" alt="xBank Logo">
+            <h1>Стандартизована структура файлів зображень</h1>
+        </header>
+        
+        <div class="section">
+            <h2>Огляд змін</h2>
+            <p>Ми реорганізували всі файли зображень у логічну структуру, щоб спростити розробку та підтримку сайту. Замість заплутаних назв та неорганізованих папок тепер всі файли мають описові назви та розміщені у відповідних категоріях.</p>
+            
+            <div class="tips">
+                <p>Стандартизована структура файлів не лише полегшує розробку, але й прискорює завантаження сторінки, оскільки браузер може ефективніше кешувати і завантажувати ресурси.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Нова структура директорій</h2>
+            <div class="file-structure">
+                <div class="dir">📁 images/</div>
+                <div class="indent">
+                    <div class="dir">📁 cleaned/</div>
+                    <div class="indent">
+                        <div class="dir">📁 illustrations/</div>
+                        <div class="indent">
+                            <div class="file">🖼️ hero-bank.png</div>
+                            <div class="file">🖼️ connections-diagram.svg</div>
+                            <div class="file">🖼️ services-diagram.svg</div>
+                            <div class="file">🖼️ bank-scheme.svg</div>
+                            <div class="file">🖼️ server.png</div>
+                        </div>
+                        <div class="dir">📁 icons/</div>
+                        <div class="indent">
+                            <div class="file">🖼️ mobile-app.svg</div>
+                            <div class="file">🖼️ data-architecture.svg</div>
+                            <div class="file">🖼️ cards.svg</div>
+                            <div class="file">🖼️ lending.svg</div>
+                            <div class="file">🖼️ savings.svg</div>
+                            <div class="file">🖼️ transfers.svg</div>
+                            <div class="file">🖼️ social-facebook.svg</div>
+                            <div class="file">🖼️ social-instagram.svg</div>
+                            <div class="file">🖼️ social-twitter.svg</div>
+                            <div class="file">🖼️ approval.svg</div>
+                        </div>
+                        <div class="dir">📁 backgrounds/</div>
+                        <div class="indent">
+                            <div class="file">(Порожня папка для майбутніх фонових зображень)</div>
+                        </div>
+                        <div class="dir">📁 ui/</div>
+                        <div class="indent">
+                            <div class="file">🖼️ logo.svg</div>
+                            <div class="file">🖼️ logo.png</div>
+                            <div class="file">🖼️ arrow-down.svg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Правила найменування файлів</h2>
+            <p>Для стандартизації назв файлів ми використовуємо такі правила:</p>
+            
+            <table>
+                <tr>
+                    <th>Категорія</th>
+                    <th>Шаблон назви</th>
+                    <th>Приклад</th>
+                </tr>
+                <tr>
+                    <td>Ілюстрації</td>
+                    <td><code>[subject]-[description].svg/png</code></td>
+                    <td><code>hero-bank.png</code></td>
+                </tr>
+                <tr>
+                    <td>Іконки</td>
+                    <td><code>[functionality].svg</code></td>
+                    <td><code>transfers.svg</code></td>
+                </tr>
+                <tr>
+                    <td>Соціальні іконки</td>
+                    <td><code>social-[network].svg</code></td>
+                    <td><code>social-facebook.svg</code></td>
+                </tr>
+                <tr>
+                    <td>UI-елементи</td>
+                    <td><code>[element-name].svg/png</code></td>
+                    <td><code>arrow-down.svg</code></td>
+                </tr>
+                <tr>
+                    <td>Фони</td>
+                    <td><code>bg-[description].svg/png</code></td>
+                    <td><code>bg-gradient.png</code></td>
+                </tr>
+            </table>
+            
+            <div class="warning">
+                <p>Намагайтеся не використовувати пробіли, спеціальні символи або кирилицю в назвах файлів. Використовуйте дефіси (-) замість пробілів і тільки малі літери для уникнення проблем на різних операційних системах.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Категорії зображень</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>📁 illustrations/</h3>
+                    <img src="/images/cleaned/illustrations/hero-bank.png" alt="Hero Bank Illustration" style="max-height: 120px; object-fit: contain;">
+                    <p>Складні зображення, які використовуються як ключові візуальні елементи. Включає головні ілюстрації секцій, діаграми, схеми.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📁 icons/</h3>
+                    <img src="/images/cleaned/icons/mobile-app.svg" alt="Mobile App Icon" style="max-height: 120px; object-fit: contain;">
+                    <p>Невеликі векторні іконки, які використовуються для функціональних елементів, кнопок і карток. Переважно у форматі SVG.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📁 backgrounds/</h3>
+                    <p>Фонові зображення, текстури та градієнти, які використовуються для стилізації сторінок або секцій.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>📁 ui/</h3>
+                    <img src="/images/cleaned/ui/logo.svg" alt="Logo" style="max-height: 120px; object-fit: contain;">
+                    <p>Елементи інтерфейсу, такі як логотипи, кнопки, стрілки та інші загальні UI-елементи.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Використання в HTML/CSS</h2>
+            
+            <h3>В HTML:</h3>
+            <pre>&lt;img src="/images/cleaned/icons/transfers.svg" alt="Transfers Icon"&gt;</pre>
+            
+            <h3>Як фонове зображення в CSS:</h3>
+            <pre>.element {
+    background-image: url('/images/cleaned/illustrations/hero-bank.png');
+    background-size: cover;
+    background-position: center;
+}</pre>
+            
+            <div class="tips">
+                <p>Для SVG-іконок, які часто повторюються, ви можете використовувати SVG-спрайти для покращення продуктивності.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Рекомендації щодо оптимізації</h2>
+            
+            <ul>
+                <li>Для растрових зображень (PNG, JPG) - використовуйте TinyPNG для стиснення без втрати якості.</li>
+                <li>Для SVG - використовуйте SVGO для видалення зайвих метаданих та оптимізації.</li>
+                <li>Обирайте правильний формат: SVG для векторних зображень, PNG для зображень з прозорістю, JPG для фотографій.</li>
+                <li>Використовуйте WebP для сучасних браузерів, з PNG/JPG як запасний варіант.</li>
+            </ul>
+        </div>
+        
+        <a href="/index-v2.html" class="back-button">← Повернутися на головну сторінку</a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primavera Van - MisterVan Rental Service</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;700&display=swap">
+    <style>
+        :root {
+            --color-primary: #d81b60;
+            --color-primary-light: #e91e63;
+            --color-secondary: #8e24aa;
+            --color-accent: #6a1b9a;
+            --color-bg: #FFFFFF;
+            --color-bg-alt: #F7F9FA;
+            --color-text: #333333;
+            --color-text-muted: #757575;
+        }
+        
+        body {
+            font-family: 'Golos Text', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+        }
+        
+        .header {
+            background-color: var(--color-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 40px;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-left: 0.5rem;
+            color: var(--color-primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--color-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/festival-hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 0 2rem;
+            margin-top: 70px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+        }
+        
+        .hero-badge {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-primary);
+            text-align: center;
+            padding-top: 3rem;
+        }
+        
+        .hero-description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            padding: 5rem 2rem;
+            background-color: var(--color-bg-alt);
+        }
+        
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 2rem;
+        }
+        
+        .feature {
+            flex: 1 1 300px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            background-color: var(--color-primary-light);
+            color: white;
+            font-size: 2rem;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-content {
+            padding: 1.5rem;
+        }
+        
+        .feature h3 {
+            color: var(--color-primary);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .feature p {
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+        
+        .campers-section {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        
+        .campers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+        
+        .camper-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .camper-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .camper-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .camper-details {
+            padding: 1.5rem;
+            text-align: left;
+        }
+        
+        .camper-title {
+            font-size: 1.5rem;
+            margin-top: 0;
+            color: var(--color-primary);
+        }
+        
+        .festival-promo {
+            background: url('/images/festival-promo-banner.png') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            margin: 3rem 0;
+        }
+        
+        .festival-promo h2 {
+            color: white;
+        }
+        
+        .festival-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+        
+        .festival-feature {
+            flex: 1 1 250px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: var(--color-text);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .camper-details-section {
+            padding: 5rem 2rem;
+            background-color: var(--color-bg-alt);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .camper-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+        
+        .detail-card {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .detail-card img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 5rem 2rem;
+            background-color: var(--color-bg);
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .copyright {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero {
+                height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="/images/mistervan-logo.png" alt="MisterVan Logo" class="logo">
+            <span class="logo-text">PrimaveraVan</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Home</a>
+            <a href="#campers" class="nav-link">Our Campers</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#" class="nav-link">Contact</a>
+            <a href="#" class="nav-link cta-button">Book Now</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Best Festival Experience</div>
+            <h1>Experience Freedom with MisterVan</h1>
+            <p class="hero-description">Enjoy the ultimate festival experience with our premium camper vans. Comfort, freedom, and adventure await you.</p>
+            <a href="#" class="cta-button">Explore Our Campers</a>
+        </div>
+    </section>
+
+    <section id="campers" class="campers-section">
+        <h2>Our Premium Camper Vans</h2>
+        <p style="max-width: 800px; margin: 0 auto 2rem; color: var(--color-text-muted);">Discover our selection of high-quality camper vans ready for your next adventure.</p>
+        
+        <div class="campers-grid">
+            <div class="camper-card">
+                <img src="/images/camper-primavera-exterior.jpg" alt="Primavera Campervan Exterior" class="camper-image">
+                <div class="camper-details">
+                    <h3 class="camper-title">Primavera Campervan</h3>
+                    <p>Our signature campervan offering comfort and style for an unforgettable festival experience.</p>
+                    <a href="#" class="cta-button">View Details</a>
+                </div>
+            </div>
+            
+            <div class="camper-card">
+                <img src="/images/camper-primavera-interior.jpg" alt="Primavera Campervan Interior" class="camper-image">
+                <div class="camper-details">
+                    <h3 class="camper-title">Luxurious Interior</h3>
+                    <p>Spacious and well-equipped interior with all the amenities you need for your journey.</p>
+                    <a href="#" class="cta-button">View Details</a>
+                </div>
+            </div>
+            
+            <div class="camper-card">
+                <img src="/images/camper-weinsberg-exterior.webp" alt="Weinsberg Campervan" class="camper-image">
+                <div class="camper-details">
+                    <h3 class="camper-title">Weinsberg Model</h3>
+                    <p>The perfect companion for longer trips with additional storage and premium features.</p>
+                    <a href="#" class="cta-button">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="festival-promo">
+        <h2>Festival Season Special Offers</h2>
+        <p style="max-width: 800px; margin: 0 auto 2rem;">Make your festival experience unforgettable with our special packages designed for music lovers!</p>
+        
+        <div class="festival-features">
+            <div class="festival-feature">
+                <img src="/images/festival-cup.webp" alt="Festival Essentials" style="width: 80px; height: 80px; margin-bottom: 1rem;">
+                <h3>Festival Essentials Kit</h3>
+                <p>Book now and get our exclusive festival kit with every rental.</p>
+            </div>
+            
+            <div class="festival-feature">
+                <img src="/images/festival-decoration.webp" alt="Festival Decoration" style="width: 80px; height: 80px; margin-bottom: 1rem;">
+                <h3>Camper Decoration</h3>
+                <p>Your camper will be festival-ready with our special decorations.</p>
+            </div>
+        </div>
+        
+        <a href="#" class="cta-button" style="margin-top: 2rem;">Book Festival Package</a>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Why Choose Misterfy?</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; color: var(--color-text-muted);">At Misterfy, we offer you the freedom to enjoy a campervan according to different usage plans, always with the aim of responding to your needs. Forget about worries and high purchasing costs! As pioneers of campervan sharing, we want you to enjoy a campervan in an easy, flexible, and tailored way.</p>
+        <div class="features-container">
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <div class="feature-content">
+                    <h3>Tailored to you</h3>
+                    <p>Choose from the available usage plans based on your needs. From 2 days to 1 year, it's up to you!</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-content">
+                    <h3>All inclusive</h3>
+                    <p>Everything you need, no surprises. Enjoy comprehensive insurance, maintenance, 24/7 assistance, unlimited mileage, a second driver, kitchenware, and camping accessories.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔑</div>
+                <div class="feature-content">
+                    <h3>Flexibility</h3>
+                    <p>Access your camper without complications and independently thanks to the camper remote control and our APP *Subject to availability*.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div class="feature-content">
+                    <h3>Online hiring</h3>
+                    <p>Manage everything from our app. Register, reserve a camper van based on your chosen usage plan. Access the vehicle autonomously and contact our support team easily.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <div class="feature-content">
+                    <h3>Best Offers</h3>
+                    <p>Access the most convenient offers and rates on the market. Thanks to our usage plans, you can enjoy premium vehicles at reduced rates.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔧</div>
+                <div class="feature-content">
+                    <h3>24h assistance</h3>
+                    <p>Our support team is available 24/7 to help you with any questions or issues that may arise during your trip.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="camper-details-section">
+        <h2>Camper Details</h2>
+        <p style="max-width: 800px; margin: 0 auto 2rem; text-align: center; color: var(--color-text-muted);">Our campers are equipped with everything you need for a comfortable and enjoyable experience.</p>
+        
+        <div class="camper-details-grid">
+            <div class="detail-card">
+                <img src="/images/camper-details-element.webp" alt="Camper Details">
+                <h3>Premium Amenities</h3>
+                <p>Each camper comes with premium amenities to make your trip comfortable.</p>
+            </div>
+            
+            <div class="detail-card">
+                <img src="/images/camper-drawing.jpg" alt="Camper Layout">
+                <h3>Spacious Layout</h3>
+                <p>Carefully designed interior space to maximize comfort and functionality.</p>
+            </div>
+            
+            <div class="detail-card">
+                <img src="/images/camper-experience.jpg" alt="Camper Experience">
+                <h3>Unforgettable Experience</h3>
+                <p>Create memories that will last a lifetime with our premium campers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready for Your Adventure?</h2>
+        <p>Book your camper van today and get ready for an unforgettable journey!</p>
+        <a href="#" class="cta-button">Book Now</a>
+    </section>
+
+    <footer>
+        <div>
+            <img src="/images/mistervan-logo.png" alt="MisterVan Logo" class="logo" style="filter: brightness(0) invert(1);">
+            <p>Your trusted partner for campervan rentals and festival experiences</p>
+        </div>
+        <div class="copyright">
+            &copy; 2024 PrimaveraVan by MisterVan. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>

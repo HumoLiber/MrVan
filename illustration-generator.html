@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xBank SVG Generator</title>
+    <style>
+        /* Базові стилі */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            line-height: 1.6;
+            padding: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px;
+            background: linear-gradient(to right, #a29aff, #6c63ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            font-size: 24px;
+            margin: 30px 0 20px;
+            color: #a29aff;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .control-group {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .control-group h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+        
+        input[type="range"],
+        input[type="color"],
+        select {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        input[type="color"] {
+            height: 40px;
+            border: none;
+            background: none;
+        }
+        
+        select {
+            padding: 8px 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        button {
+            display: inline-block;
+            background: linear-gradient(to right, #4e64ff, #6c63ff);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(107, 99, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(107, 99, 255, 0.6);
+        }
+        
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .svg-preview {
+            width: 400px;
+            height: 400px;
+            background-color: #000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .code-output {
+            width: 100%;
+            background-color: #1a1a1a;
+            border-radius: 5px;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            color: #e0e0e0;
+            overflow-x: auto;
+            white-space: pre;
+            margin-top: 20px;
+        }
+        
+        .button-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>xBank SVG Generator</h1>
+        
+        <section class="section">
+            <h2>Створіть свою ілюстрацію</h2>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <h3>Базова форма</h3>
+                    <label for="shape-type">Тип форми</label>
+                    <select id="shape-type">
+                        <option value="bank">Банк</option>
+                        <option value="credit-card">Кредитна картка</option>
+                        <option value="mobile">Мобільний телефон</option>
+                        <option value="wallet">Гаманець</option>
+                        <option value="shield">Щит безпеки</option>
+                    </select>
+                    
+                    <label for="shape-size">Розмір</label>
+                    <input type="range" id="shape-size" min="50" max="300" value="150">
+                    
+                    <label for="shape-rotation">Поворот</label>
+                    <input type="range" id="shape-rotation" min="0" max="360" value="0">
+                </div>
+                
+                <div class="control-group">
+                    <h3>Стиль</h3>
+                    <label for="fill-color">Колір заливки</label>
+                    <input type="color" id="fill-color" value="#ffffff">
+                    
+                    <label for="stroke-color">Колір контуру</label>
+                    <input type="color" id="stroke-color" value="#6c63ff">
+                    
+                    <label for="stroke-width">Товщина контуру</label>
+                    <input type="range" id="stroke-width" min="0" max="10" value="2">
+                    
+                    <label for="style-preset">Пресет стилю</label>
+                    <select id="style-preset">
+                        <option value="outline">Контурний</option>
+                        <option value="solid">Суцільна заливка</option>
+                        <option value="gradient">Градієнт</option>
+                        <option value="wireframe">Каркасний</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <h3>Ефекти</h3>
+                    <label for="glow-effect">Ефект світіння</label>
+                    <input type="range" id="glow-effect" min="0" max="20" value="0">
+                    
+                    <label for="glow-color">Колір світіння</label>
+                    <input type="color" id="glow-color" value="#6c63ff">
+                    
+                    <label for="shadow-effect">Ефект тіні</label>
+                    <input type="range" id="shadow-effect" min="0" max="20" value="0">
+                </div>
+                
+                <div class="control-group">
+                    <h3>Фон</h3>
+                    <label for="background-type">Тип фону</label>
+                    <select id="background-type">
+                        <option value="none">Без фону</option>
+                        <option value="grid">Сітка</option>
+                        <option value="dots">Точки</option>
+                        <option value="gradient">Градієнт</option>
+                    </select>
+                    
+                    <label for="background-color">Колір фону</label>
+                    <input type="color" id="background-color" value="#000000">
+                    
+                    <label for="background-opacity">Прозорість фону</label>
+                    <input type="range" id="background-opacity" min="0" max="100" value="10">
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <div class="svg-preview" id="preview">
+                    <!-- SVG буде створено за допомогою JavaScript -->
+                </div>
+                
+                <div class="button-row">
+                    <button id="generate-btn">Згенерувати SVG</button>
+                    <button id="download-btn">Завантажити SVG</button>
+                    <button id="copy-btn">Копіювати код</button>
+                </div>
+                
+                <div class="code-output" id="svg-code"></div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Основні елементи інтерфейсу
+        const preview = document.getElementById('preview');
+        const svgCode = document.getElementById('svg-code');
+        const generateBtn = document.getElementById('generate-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        
+        // Контроли форми
+        const shapeType = document.getElementById('shape-type');
+        const shapeSize = document.getElementById('shape-size');
+        const shapeRotation = document.getElementById('shape-rotation');
+        const fillColor = document.getElementById('fill-color');
+        const strokeColor = document.getElementById('stroke-color');
+        const strokeWidth = document.getElementById('stroke-width');
+        const stylePreset = document.getElementById('style-preset');
+        const glowEffect = document.getElementById('glow-effect');
+        const glowColor = document.getElementById('glow-color');
+        const shadowEffect = document.getElementById('shadow-effect');
+        const backgroundType = document.getElementById('background-type');
+        const backgroundColor = document.getElementById('background-color');
+        const backgroundOpacity = document.getElementById('background-opacity');
+        
+        // Форми SVG для різних типів
+        const shapes = {
+            bank: `<path d="M10,50 L90,20 L170,50 L170,150 L10,150 Z"></path><rect x="30" y="70" width="30" height="80"></rect><rect x="80" y="70" width="30" height="80"></rect><rect x="130" y="70" width="30" height="80"></rect><path d="M0,50 L180,50 L180,60 L0,60 Z"></path><path d="M0,150 L180,150 L180,170 L0,170 Z"></path>`,
+            
+            'credit-card': `<rect x="10" y="40" width="160" height="100" rx="10"></rect><rect x="20" y="70" width="140" height="20" fill="#555"></rect><circle cx="40" cy="120" r="15"></circle><circle cx="70" cy="120" r="15"></circle>`,
+            
+            mobile: `<rect x="40" y="10" width="100" height="180" rx="10"></rect><rect x="50" y="30" width="80" height="120" fill="#000"></rect><circle cx="90" cy="170" r="10"></circle>`,
+            
+            wallet: `<path d="M10,40 C10,40 10,30 20,30 L160,30 C170,30 170,40 170,40 L170,140 C170,150 160,150 160,150 L20,150 C10,150 10,140 10,140 Z"></path><rect x="130" y="80" width="40" height="30" rx="5"></rect><line x1="10" y1="50" x2="170" y2="50" stroke-width="2"></line>`,
+            
+            shield: `<path d="M90,10 L160,40 C160,40 160,100 90,170 C20,100 20,40 20,40 Z"></path><path d="M90,40 L130,60 C130,60 130,100 90,140 C50,100 50,60 50,60 Z" fill="#000"></path>`
+        };
+        
+        // Стилізація фону
+        function getBackgroundElement() {
+            const type = backgroundType.value;
+            const color = backgroundColor.value;
+            const opacity = backgroundOpacity.value / 100;
+            
+            let bgElement = '';
+            
+            switch(type) {
+                case 'grid':
+                    bgElement = `
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="${color}" stroke-width="0.5" opacity="${opacity}"/>
+                        </pattern>
+                        <rect width="100%" height="100%" fill="url(#grid)" />
+                    `;
+                    break;
+                case 'dots':
+                    bgElement = `
+                        <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <circle cx="10" cy="10" r="1" fill="${color}" opacity="${opacity}"/>
+                        </pattern>
+                        <rect width="100%" height="100%" fill="url(#dots)" />
+                    `;
+                    break;
+                case 'gradient':
+                    bgElement = `
+                        <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${color}" stop-opacity="${opacity * 0.5}"/>
+                            <stop offset="100%" stop-color="${color}" stop-opacity="${opacity}"/>
+                        </linearGradient>
+                        <rect width="100%" height="100%" fill="url(#bg-gradient)" />
+                    `;
+                    break;
+                default:
+                    bgElement = '';
+            }
+            
+            return bgElement;
+        }
+        
+        // Генерація ефектів
+        function getEffectsDefinitions() {
+            const glow = parseInt(glowEffect.value);
+            const shadow = parseInt(shadowEffect.value);
+            let effects = '';
+            
+            if (glow > 0) {
+                effects += `
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="${glow}" result="blur"/>
+                        <feFlood flood-color="${glowColor.value}" result="color"/>
+                        <feComposite in="color" in2="blur" operator="in" result="glow"/>
+                        <feMerge>
+                            <feMergeNode in="glow"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                `;
+            }
+            
+            if (shadow > 0) {
+                effects += `
+                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feDropShadow dx="5" dy="5" stdDeviation="${shadow}" flood-opacity="0.5" flood-color="#000"/>
+                    </filter>
+                `;
+            }
+            
+            return effects;
+        }
+        
+        // Генерація SVG
+        function generateSVG() {
+            const type = shapeType.value;
+            const size = parseInt(shapeSize.value);
+            const rotation = parseInt(shapeRotation.value);
+            const fill = fillColor.value;
+            const stroke = strokeColor.value;
+            const strokeW = parseInt(strokeWidth.value);
+            const style = stylePreset.value;
+            
+            // Налаштування стилю
+            let styleAttrs = '';
+            switch(style) {
+                case 'outline':
+                    styleAttrs = `fill="none" stroke="${stroke}" stroke-width="${strokeW}"`;
+                    break;
+                case 'solid':
+                    styleAttrs = `fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}"`;
+                    break;
+                case 'gradient':
+                    styleAttrs = `fill="url(#shape-gradient)" stroke="${stroke}" stroke-width="${strokeW}"`;
+                    break;
+                case 'wireframe':
+                    styleAttrs = `fill="none" stroke="${stroke}" stroke-width="1" stroke-dasharray="4 2"`;
+                    break;
+            }
+            
+            // Ефекти
+            const filterEffects = [];
+            if (parseInt(glowEffect.value) > 0) filterEffects.push('url(#glow)');
+            if (parseInt(shadowEffect.value) > 0) filterEffects.push('url(#shadow)');
+            
+            const filterAttr = filterEffects.length ? `filter="${filterEffects.join(' ')}"` : '';
+            
+            // Градієнт для форми, якщо обрано пресет "gradient"
+            const gradientDef = style === 'gradient' ? `
+                <linearGradient id="shape-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="${fill}"/>
+                    <stop offset="100%" stop-color="${stroke}"/>
+                </linearGradient>
+            ` : '';
+            
+            // Зібрати фінальний SVG
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="${size}" height="${size}">
+                    <defs>
+                        ${getEffectsDefinitions()}
+                        ${gradientDef}
+                    </defs>
+                    ${getBackgroundElement()}
+                    <g transform="translate(10, 10) rotate(${rotation}, 90, 90)" ${styleAttrs} ${filterAttr}>
+                        ${shapes[type]}
+                    </g>
+                </svg>
+            `;
+            
+            // Вивести SVG в превʼю та код
+            preview.innerHTML = svg;
+            svgCode.textContent = svg.trim();
+            
+            return svg;
+        }
+        
+        // Завантаження SVG
+        function downloadSVG() {
+            const svg = generateSVG();
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `xbank-${shapeType.value}.svg`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Копіювання коду SVG
+        function copySVGCode() {
+            const code = svgCode.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('SVG код скопійовано в буфер обміну!');
+            });
+        }
+        
+        // Налаштування слухачів подій
+        generateBtn.addEventListener('click', generateSVG);
+        downloadBtn.addEventListener('click', downloadSVG);
+        copyBtn.addEventListener('click', copySVGCode);
+        
+        // Початкова генерація
+        document.addEventListener('DOMContentLoaded', generateSVG);
+    </script>
+</body>
+</html> 
